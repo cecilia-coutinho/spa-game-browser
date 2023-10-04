@@ -51,7 +51,7 @@ export class LoginMenu extends Component {
               <NavLink tag={Link} className="text-dark" to="/game">Play</NavLink>
           </NavItem>
           <NavItem>
-              <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
+              <NavLink tag={Link} className="text-dark" to="/userboard">User Board</NavLink>
           </NavItem>
           <NavItem>
               <NavLink tag={Link} className="text-dark" to="/highscore">Highscore</NavLink>

@@ -1,5 +1,5 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Profile } from "./components/Profile";
+import { UserBoard } from "./components/UserBoard";
 import { Highscore } from "./components/Highscore";
 import { Home } from "./components/Home";
 import { GamePage } from "./components/GamePage";
@@ -14,8 +14,8 @@ const AppRoutes = [
         element: <GamePage />
     },
     {
-        path: '/profile',
-        element: <Profile />
+        path: '/userboard',
+        element: <UserBoard />
     },
     {
         path: '/highscore',
