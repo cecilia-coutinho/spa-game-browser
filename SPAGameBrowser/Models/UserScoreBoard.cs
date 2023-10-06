@@ -33,9 +33,9 @@ namespace SPAGameBrowser.Models
         public DateTime? Finished_At { get; set; }
 
 
-        public virtual ApplicationUser? User { get; set; }
+        public ICollection<ApplicationUser>? Users { get; set; } = new List<ApplicationUser>();
 
-        public virtual Word? Word { get; set; }
+        public ICollection<Word>? Words { get; set; } = new List<Word>();
 
     }
 }
