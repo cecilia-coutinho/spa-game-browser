@@ -27,6 +27,8 @@ namespace SPAGameBrowser.Data
             modelBuilder.Entity<Word>()
                 .HasIndex(u => u.WordName)
                 .IsUnique();
+
+            modelBuilder.Seed();
         }
     }
 }
