@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SPAGameBrowser.Models
@@ -6,13 +7,13 @@ namespace SPAGameBrowser.Models
     public class UserScoreBoard
     {
         [Key]
-        public int UserScoreBoardId { get; set; }
+        public int UserScoreId { get; set; }
 
         [Required, NotNull]
-        public int FkUserId { get; set; }
+        public string? FkUserId { get; set; }
 
         [Required, NotNull]
-        public string? FkWordId { get; set; }
+        public int? FkWordId { get; set; }
 
         [Required, NotNull]
         [Display(Name = "IP Address")]
@@ -33,9 +34,11 @@ namespace SPAGameBrowser.Models
         public DateTime? Finished_At { get; set; }
 
 
-        public ICollection<ApplicationUser>? Users { get; set; } = new List<ApplicationUser>();
+        [ForeignKey("FkUserId")]
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
 
-        public ICollection<Word>? Words { get; set; } = new List<Word>();
+        [ForeignKey("FkWordId")]
+        public virtual Word? Words { get; set; }
 
     }
 }

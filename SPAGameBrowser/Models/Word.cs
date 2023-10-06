@@ -15,6 +15,6 @@ namespace SPAGameBrowser.Models
         [StringLength(5, MinimumLength = 5, ErrorMessage = "5-letter words only.")]
         public string? WordName { get; set; }
 
-        public UserScoreBoard? Scoreboard { get; set; }
+        public List<UserScoreBoard>? UserScoreBoards { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SPAGameBrowser.Data;
 
@@ -11,9 +12,10 @@ using SPAGameBrowser.Data;
 namespace SPAGameBrowser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231006170935_RecreateTables")]
+    partial class RecreateTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -806,21 +808,21 @@ namespace SPAGameBrowser.Data.Migrations
 
             modelBuilder.Entity("SPAGameBrowser.Models.UserScoreBoard", b =>
                 {
-                    b.HasOne("SPAGameBrowser.Models.ApplicationUser", "ApplicationUsers")
+                    b.HasOne("SPAGameBrowser.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("UserScoreBoards")
                         .HasForeignKey("FkUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SPAGameBrowser.Models.Word", "Words")
+                    b.HasOne("SPAGameBrowser.Models.Word", "Word")
                         .WithMany("UserScoreBoards")
                         .HasForeignKey("FkWordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUsers");
+                    b.Navigation("ApplicationUser");
 
-                    b.Navigation("Words");
+                    b.Navigation("Word");
                 });
 
             modelBuilder.Entity("SPAGameBrowser.Models.ApplicationUser", b =>

@@ -28,6 +28,16 @@ namespace SPAGameBrowser.Data
                 .HasIndex(u => u.WordName)
                 .IsUnique();
 
+            modelBuilder.Entity<UserScoreBoard>()
+            .HasOne(u => u.ApplicationUsers)
+            .WithMany(a => a.UserScoreBoards)
+            .HasForeignKey(u => u.FkUserId);
+
+            modelBuilder.Entity<UserScoreBoard>()
+                .HasOne(u => u.Words)
+                .WithMany(a => a.UserScoreBoards)
+                .HasForeignKey(u => u.FkWordId);
+
             modelBuilder.Seed();
         }
     }
