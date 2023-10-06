@@ -20,6 +20,7 @@ namespace SPAGameBrowser.Models
 
         [Required, NotNull]
         [Display(Name = "Time Guesses")]
+        [Range(0, 5)]
         public int TimeGuesses { get; set; } = 0;
 
         [Required, NotNull]
@@ -30,6 +31,11 @@ namespace SPAGameBrowser.Models
 
         [Required]
         public DateTime? Finished_At { get; set; }
+
+
+        public virtual ApplicationUser? User { get; set; }
+
+        public virtual Word? Word { get; set; }
 
     }
 }
