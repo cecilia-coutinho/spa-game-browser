@@ -1,18 +1,27 @@
-﻿import React, { Component } from 'react';
-import { Board } from './Board';
-import { Keyboard } from './Keyboard';
+﻿import React, { useState } from 'react';
+import Board from './Board';
+import Keyboard from './Keyboard';
+import { createContext } from "react";
+import { boardDefault } from './Words';
+import '../custom.css';
 
-export class GamePage extends Component {
-    static displayName = GamePage.name;
+export const GameContext = createContext();
 
-    render() {
-        return (
-            <div>
-                <h1>Wordle Clone</h1>
-                <p>Coming soon</p>
+const GamePage = () => {
+    const [board, setBoard] = useState(boardDefault);
+
+    return (
+        <div>
+            <h1>Wordle Clone</h1>
+            <p>Coming soon</p>
+
+            <GameContext.Provider value={{ board, setBoard }}>
                 <Board />
                 <Keyboard />
-            </div>
-        );
-    }
-}
+            </GameContext.Provider>
+
+        </div>
+    );
+};
+
+export default GamePage;

@@ -1,13 +1,12 @@
 ﻿import React, { Component } from 'react';
 
-export class Keyboard extends Component {
-    static displayName = Keyboard.name;
+const Keyboard = () => {
 
-    render() {
         return (
             <div>
                 Keyboard
             </div>
         );
-    }
 }
+
+export default Keyboard;

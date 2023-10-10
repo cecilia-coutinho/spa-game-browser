@@ -1,16 +1,17 @@
-﻿import React, { Component } from 'react';
+﻿import React, { useContext } from 'react';
+import { GameContext } from "./GamePage";
 import '../custom.css';
 
-export class Letter extends Component {
-    static displayName = Letter.name;
+const Letter = ({ letterPosition, attemptValue }) => {
 
-    render() {
-        const { letterPosition, attemptValue } = this.props;
+    const { board } = useContext(GameContext);
+    const letter = board[attemptValue][letterPosition]
 
-        return (
-            <div className="Letter">
-                Letter
-            </div>
-        );
-    }
+    return (
+        <div className="letter">
+            { letter }
+        </div>
+    );
 }
+
+export default Letter;

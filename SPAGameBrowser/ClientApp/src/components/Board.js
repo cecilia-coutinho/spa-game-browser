@@ -1,19 +1,9 @@
-﻿import React, { Component } from 'react';
-import { Letter } from './Letter';
-import { boardDefault } from './Words'; 
+﻿
+import  Letter  from './Letter';
 import '../custom.css';
 
-export class Board extends Component {
-    static displayName = Board.name;
+const Board = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            board: boardDefault
-        };
-    }
-
-    render() {
         return (
             <div className="board">
                 Board
@@ -54,5 +44,5 @@ export class Board extends Component {
                 </div>
             </div>
         );
-    }
 }
+export default Board;
