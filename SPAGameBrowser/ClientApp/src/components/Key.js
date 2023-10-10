@@ -5,10 +5,20 @@ const Key = ({ keyVal, bigKey }) => {
     const { board, setBoard, currAttempt, setCurrAttempt } = useContext(gameContext);
 
     const selectLetter = () => {
-        if (keyVal === "ENTER") {
+        if (keyVal === "ENTER")
+        {
             if (currAttempt.letterPos !== 5) return;
 
             setCurrAttempt({attempt: currAttempt.attempt + 1, letterPos: 0})
+        }
+        else if (keyVal === "DELETE")
+        {
+            if (currAttempt.letterPos === 0) return;
+
+            const newBoard = [...board];
+            newBoard[currAttempt.attempt][currAttempt.letterPos - 1] = "";
+            setBoard(newBoard);
+            setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos -1 })
         }
         else
         {
