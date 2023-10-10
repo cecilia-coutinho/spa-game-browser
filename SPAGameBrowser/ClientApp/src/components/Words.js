@@ -1,21 +1,9 @@
-﻿import React, { Component } from 'react';
-
+﻿
 export const boardDefault = [
+    ["", "G", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "D", ""],
     ["", "", "", "", ""],
     ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
+    ["", "", "A", "", ""],
 ];
-export class Words extends Component {
-    static displayName = Words.name;
-
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
-}

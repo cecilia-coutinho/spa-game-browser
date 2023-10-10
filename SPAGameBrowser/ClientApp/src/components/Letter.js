@@ -4,6 +4,10 @@ import '../custom.css';
 
 const Letter = ({ letterPosition, attemptValue }) => {
 
+    console.log('letterPosition:', letterPosition);
+    console.log('attemptValue:', attemptValue);
+
+
     const { board } = useContext(GameContext);
     const letter = board[attemptValue][letterPosition]
 

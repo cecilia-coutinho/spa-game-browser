@@ -16,8 +16,10 @@ const GamePage = () => {
             <p>Coming soon</p>
 
             <GameContext.Provider value={{ board, setBoard }}>
+                <div className="game">
                 <Board />
                 <Keyboard />
+                </div>
             </GameContext.Provider>
 
         </div>
