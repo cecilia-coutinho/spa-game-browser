@@ -1,5 +1,5 @@
 ﻿import React, { useContext } from 'react';
-import { GameContext } from "./GamePage";
+import { gameContext } from "./GamePage";
 import '../custom.css';
 
 const Letter = ({ letterPosition, attemptValue }) => {
@@ -8,7 +8,7 @@ const Letter = ({ letterPosition, attemptValue }) => {
     console.log('attemptValue:', attemptValue);
 
 
-    const { board } = useContext(GameContext);
+    const { board } = useContext(gameContext);
     const letter = board[attemptValue][letterPosition]
 
     return (

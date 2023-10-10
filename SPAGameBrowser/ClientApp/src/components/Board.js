@@ -1,15 +1,11 @@
 ﻿import React, { useContext } from 'react';
 import Letter from './Letter';
-import { GameContext } from "./GamePage";
+import { gameContext } from "./GamePage";
 import '../custom.css';
 
 const Board = () => {
-    const { board } = useContext(GameContext);
-    console.log('Board Data:', board);
-
         return (
             <div className="board">
-                Board
                 <div className="row">
                     <Letter letterPosition={0} attemptValue={0} />
                     <Letter letterPosition={1} attemptValue={0} />

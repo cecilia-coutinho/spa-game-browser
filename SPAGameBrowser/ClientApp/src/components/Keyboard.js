@@ -8,20 +8,20 @@ const Keyboard = () => {
 
         return (
             <div className="keyboard">
-                <div className="line1">{keys1.map((key) => {
-                    return <Key keyVal={key} />
+                <div className="line1">{keys1.map((key, index) => {
+                    return <Key key={index} keyVal={key} />
                 })}
                 </div>
 
-                <div className="line2">{keys2.map((key) => {
-                    return <Key keyVal={key} />
+                <div className="line2">{keys2.map((key, index) => {
+                    return <Key key={index + keys1.length} keyVal={key} />
                 })}
                 </div>
 
                 <div className="line3">
                     <Key keyVal={"ENTER"} bigKey />
-                    {keys3.map((key) => {
-                    return <Key keyVal={key} />
+                    {keys3.map((key, index) => {
+                        return <Key key={index + keys1.length + keys2.length} keyVal={key} />
                     })}
                     <Key keyVal={"DELETE"} bigKey/>
                 </div>
