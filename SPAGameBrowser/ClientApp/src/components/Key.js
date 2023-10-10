@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 
-const Key = ({ keyVal }) => {
+const Key = ({ keyVal, bigKey }) => {
 
     return (
-        <div className="key">
+        <div className="key" id={bigKey && "big"}>
             {keyVal}
         </div>
     );
