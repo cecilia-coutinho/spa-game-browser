@@ -22,16 +22,16 @@ namespace SPAGameBrowser.Controllers
             _context = context;
         }
 
-        // GET: api/Words
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Word>>> GetWords()
-        {
-          if (_context.Words == null)
-          {
-              return NotFound();
-          }
-            return await _context.Words.ToListAsync();
-        }
+        //// GET: api/Words
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Word>>> GetWords()
+        //{
+        //  if (_context.Words == null)
+        //  {
+        //      return NotFound();
+        //  }
+        //    return await _context.Words.ToListAsync();
+        //}
 
         // GET: api/Words/5
         [HttpGet("{id}")]
