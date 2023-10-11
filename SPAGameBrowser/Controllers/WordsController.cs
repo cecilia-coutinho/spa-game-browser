@@ -57,23 +57,14 @@ namespace SPAGameBrowser.Controllers
         {
             char[] characters = Array.Empty<char>();
 
+            if (_context.Words == null)
+            {
+                return NotFound("No word found in the context");
+            }
+
             if (_context.UserScores == null)
             {
-                if (_context.Words == null)
-                {
-                    return NotFound("No word found in the context");
-                }
-
-                var word = await _context.Words
-                    .OrderBy(w => w.WordId)
-                    .FirstOrDefaultAsync();
-
-                if (word == null)
-                {
-                    return NotFound("No word found!");
-                }
-
-                characters = word.WordName.ToCharArray();
+                characters = await GetWordFromContext(_context.Words.OrderBy(w => w.WordId));
             }
             else
             {
@@ -86,36 +77,11 @@ namespace SPAGameBrowser.Controllers
                 {
                     int fkWordId = userScore.FkWordId.GetValueOrDefault();
 
-                    if (_context.Words == null)
-                    {
-                        return NotFound("No word found in the context");
-                    }
-
-                    Word? word = await _context.Words
-                        .FindAsync(fkWordId);
-
-                    if (word != null)
-                    {
-                        characters = word.WordName.ToCharArray();
-                    }
+                    characters = await GetWordFromContext(_context.Words.Where(w => w.WordId == fkWordId));
                 }
                 else
                 {
-                    if (_context.Words == null)
-                    {
-                        return NotFound("No word found in the context");
-                    }
-
-                    var word = await _context.Words
-                        .OrderBy(w => w.WordId)
-                        .FirstOrDefaultAsync();
-
-                    if (word == null)
-                    {
-                        return NotFound("No word found!");
-                    }
-
-                    characters = word.WordName.ToCharArray();
+                    characters = await GetWordFromContext(_context.Words.OrderBy(w => w.WordId));
                 }
             }
             return Ok(characters);
@@ -184,6 +150,18 @@ namespace SPAGameBrowser.Controllers
 
         //    return NoContent();
         //}
+
+        private async Task<char[]> GetWordFromContext(IQueryable<Word> wordsQuery)
+        {
+            var word = await wordsQuery.FirstOrDefaultAsync();
+
+            if (word == null)
+            {
+                return Array.Empty<char>();
+            }
+
+            return word.WordName.ToCharArray();
+        }
 
         private bool WordExists(int id)
         {
