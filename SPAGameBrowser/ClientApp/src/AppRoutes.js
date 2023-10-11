@@ -11,6 +11,7 @@ const AppRoutes = [
     },
     {
         path: '/game',
+        requireAuth: true,
         element: <GamePage />
     },
     {
@@ -19,7 +20,7 @@ const AppRoutes = [
     },
     {
         path: '/highscore',
-        requireAuth: true,
+        requireAuth: false,
         element: <Highscore />
     },
     ...ApiAuthorzationRoutes
