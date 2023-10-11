@@ -3,10 +3,6 @@ import { gameContext } from "./GamePage"
 
 const Key = ({ keyVal, bigKey }) => {
     const {
-        board,
-        setBoard,
-        currAttempt,
-        setCurrAttempt,
         onSelectLetter,
         onDelete,
         onEnter } = useContext(gameContext);
