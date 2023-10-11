@@ -10,30 +10,33 @@ export const gameContext = createContext();
 const GamePage = () => {
     const [board, setBoard] = useState(boardDefault);
     //console.log('board:', board);
-    const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
+    const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPosition: 0 });
+
+    //TO DELETE: temp variable for test purposes
+    const correctWord = "OCEAN" 
 
     const onSelectLetter = (keyVal) => {
-        if (currAttempt.letterPos > 4) return;
+        if (currAttempt.letterPosition > 4) return;
 
         const newBoard = [...board];
-        newBoard[currAttempt.attempt][currAttempt.letterPos] = keyVal;
+        newBoard[currAttempt.attempt][currAttempt.letterPosition] = keyVal;
         setBoard(newBoard);
-        setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos + 1 });
+        setCurrAttempt({ ...currAttempt, letterPosition: currAttempt.letterPosition + 1 });
     }
 
     const onDelete = () => {
-        if (currAttempt.letterPos === 0) return;
+        if (currAttempt.letterPosition === 0) return;
 
         const newBoard = [...board];
-        newBoard[currAttempt.attempt][currAttempt.letterPos - 1] = "";
+        newBoard[currAttempt.attempt][currAttempt.letterPosition - 1] = "";
         setBoard(newBoard);
-        setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos - 1 })
+        setCurrAttempt({ ...currAttempt, letterPosition: currAttempt.letterPosition - 1 })
     }
 
     const onEnter = () => {
-        if (currAttempt.letterPos !== 5) return;
+        if (currAttempt.letterPosition !== 5) return;
 
-        setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 })
+        setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPosition: 0 })
     }
 
     return (
@@ -48,7 +51,8 @@ const GamePage = () => {
                 setCurrAttempt,
                 onSelectLetter,
                 onDelete,
-                onEnter
+                onEnter,
+                correctWord
             }}>
                 <div className="game">
                 <Board />

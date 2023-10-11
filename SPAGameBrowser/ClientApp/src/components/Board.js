@@ -1,6 +1,5 @@
-﻿import React, { useContext } from 'react';
+﻿import React from 'react';
 import Letter from './Letter';
-import { gameContext } from "./GamePage";
 import '../custom.css';
 
 const Board = () => {
