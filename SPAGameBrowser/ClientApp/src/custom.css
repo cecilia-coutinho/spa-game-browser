@@ -107,20 +107,23 @@ code {
     place-items: center;
     font-size: 30px;
     font-weight: bolder;
-    /*color: white;*/
+    color: black;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 #correct {
     background-color: #528d4e;
+    color: white;
 }
 
 #almost {
     background-color: #b49f39;
+    color: white;
 }
 
 #error {
     background-color: #3a393c;
+    color: white;
 }
 
 .keyboard {
