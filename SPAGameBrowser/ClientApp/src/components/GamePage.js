@@ -50,12 +50,13 @@ const GamePage = ({ userId }) => {
 
         setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPosition: 0 })
 
-        if (!wordSet.has(currWord)) {
-            alert("Incorrect");
+        if (!wordSet.has(currWord.toLowerCase())) {
+            alert("Incorrect!");
         }
 
         if (currWord === correctWord) {
-            alert("you won! Game over")
+            alert("Congratulations! You've won.")
+            //"Oops! You lost. Game over".
             return;
         }
     }
