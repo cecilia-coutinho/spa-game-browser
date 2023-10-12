@@ -33,7 +33,7 @@ export const getWord = async () => {
         const wordArr = Array.from(result).map(item => item.wordName.split('\n'));
         const flattenedArray = [].concat(...wordArr);
         const wordSet = new Set(flattenedArray);
-        return wordSet;
+        return { wordSet };
     } catch (error) {
         console.error('Error: ', error);
         throw error; 

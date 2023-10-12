@@ -18,7 +18,7 @@ const GamePage = ({ userId }) => {
     useEffect(() => {
         getWord().then((words) => {
             //console.log(words)
-            setWordSet(words.wordset)
+            setWordSet(words.wordSet)
         })
     }, [])
 
@@ -43,7 +43,21 @@ const GamePage = ({ userId }) => {
     const onEnter = () => {
         if (currAttempt.letterPosition !== 5) return;
 
+        let currWord = "";
+        for (let i = 0; i < 5; i++) {
+            currWord += board[currAttempt.attempt][i];
+        }
+
         setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPosition: 0 })
+
+        if (!wordSet.has(currWord)) {
+            alert("Incorrect");
+        }
+
+        if (currWord === correctWord) {
+            alert("you won! Game over")
+            return;
+        }
     }
 
     return (
