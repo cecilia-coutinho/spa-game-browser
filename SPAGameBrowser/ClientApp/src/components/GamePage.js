@@ -1,19 +1,26 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Board from './Board';
 import Keyboard from './Keyboard';
 import { createContext } from "react";
-import { boardDefault } from './Words';
+import { boardDefault, getWord } from './Words';
 import '../custom.css';
 
 export const gameContext = createContext();
 
-const GamePage = () => {
+const GamePage = ({ userId }) => {
     const [board, setBoard] = useState(boardDefault);
     //console.log('board:', board);
     const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPosition: 0 });
+    const [wordSet, setWordSet] = useState(new Set())
 
     //TO DELETE: temp variable for test purposes
     const correctWord = "OCEAN" 
+    useEffect(() => {
+        getWord().then((words) => {
+            //console.log(words)
+            setWordSet(words.wordset)
+        })
+    }, [])
 
     const onSelectLetter = (keyVal) => {
         if (currAttempt.letterPosition > 4) return;
