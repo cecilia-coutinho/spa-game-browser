@@ -22,70 +22,36 @@ namespace SPAGameBrowser.Controllers
             _context = context;
         }
 
-        //// GET: api/Words
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Word>>> GetWords()
+        // GET: api/Words
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Word>>> GetWords()
+        {
+            if (_context.Words == null)
+            {
+                return NotFound();
+            }
+
+            
+            return await _context.Words.OrderBy(w => w.WordId).ToListAsync();
+        }
+
+        //// GET: api/Words/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Word>> GetWord(int id)
         //{
         //  if (_context.Words == null)
         //  {
         //      return NotFound();
         //  }
-        //    return await _context.Words.ToListAsync();
+        //    var word = await _context.Words.FindAsync(id);
+
+        //    if (word == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return word;
         //}
-
-        // GET: api/Words/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Word>> GetWord(int id)
-        {
-          if (_context.Words == null)
-          {
-              return NotFound();
-          }
-            var word = await _context.Words.FindAsync(id);
-
-            if (word == null)
-            {
-                return NotFound();
-            }
-
-            return word;
-        }
-
-        // GET: api/Word?userId={userId}
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<char>>> GetWord([FromQuery] string userId)
-        {
-            char[] characters = Array.Empty<char>();
-
-            if (_context.Words == null)
-            {
-                return NotFound("No word found in the context");
-            }
-
-            if (_context.UserScores == null)
-            {
-                characters = await GetWordFromContext(_context.Words.OrderBy(w => w.WordId));
-            }
-            else
-            {
-                UserScoreBoard? userScore = await _context.UserScores
-                .Where(us => us.FkUserId == userId && us.Finished_At == null)
-                .OrderByDescending(us => us.Started_At)
-                .FirstOrDefaultAsync();
-                
-                if (userScore != null)
-                {
-                    int fkWordId = userScore.FkWordId.GetValueOrDefault();
-
-                    characters = await GetWordFromContext(_context.Words.Where(w => w.WordId == fkWordId));
-                }
-                else
-                {
-                    characters = await GetWordFromContext(_context.Words.OrderBy(w => w.WordId));
-                }
-            }
-            return Ok(characters);
-        }
 
         //// PUT: api/Words/5
         //[HttpPut("{id}")]
@@ -151,21 +117,9 @@ namespace SPAGameBrowser.Controllers
         //    return NoContent();
         //}
 
-        private async Task<char[]> GetWordFromContext(IQueryable<Word> wordsQuery)
-        {
-            var word = await wordsQuery.FirstOrDefaultAsync();
-
-            if (word == null)
-            {
-                return Array.Empty<char>();
-            }
-
-            return word.WordName.ToCharArray();
-        }
-
-        private bool WordExists(int id)
-        {
-            return (_context.Words?.Any(e => e.WordId == id)).GetValueOrDefault();
-        }
+        //private bool WordExists(int id)
+        //{
+        //    return (_context.Words?.Any(e => e.WordId == id)).GetValueOrDefault();
+        //}
     }
 }
