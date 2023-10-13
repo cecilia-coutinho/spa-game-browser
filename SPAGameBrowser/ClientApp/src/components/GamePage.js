@@ -27,7 +27,6 @@ const GamePage = () => {
 
     useEffect(() => {
         getWord().then((words) => {
-            //console.log(words)
             setWordSet(words.wordSet);
             setCorrectWord(words.selectedWord);
         })
@@ -79,9 +78,10 @@ const GamePage = () => {
 
     return (
         <div>
+        <div className="gameTitle">
             <h1>Wordle Clone</h1>
-            <p>Coming soon</p>
-
+            <p>Guess the word</p>
+        </div>
             <gameContext.Provider value={{
                 board,
                 setBoard,

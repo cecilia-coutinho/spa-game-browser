@@ -3,8 +3,6 @@ import { gameContext } from "./GamePage";
 import '../custom.css';
 
 const Letter = ({ letterPosition, attemptValue }) => {
-    //console.log('letterPosition:', letterPosition);
-    //console.log('attemptValue:', attemptValue);
     const {
         board,
         correctWord,
@@ -25,6 +23,7 @@ const Letter = ({ letterPosition, attemptValue }) => {
         if (letter !== "" && !correctLetter && !almostLetter) {
             setDisableLetter((prev) => [...prev, letter])
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currAttempt.attempt]);
 
 

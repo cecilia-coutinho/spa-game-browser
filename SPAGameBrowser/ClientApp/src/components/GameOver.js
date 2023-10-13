@@ -4,7 +4,6 @@ import { gameContext } from "./GamePage"
 const GameOver = () => {
     const {
         gameOver,
-        setGameOver,
         currAttempt,
         correctWord } = useContext(gameContext);
     return (
