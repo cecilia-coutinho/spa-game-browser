@@ -18,20 +18,22 @@ const GamePage = () => {
 
     const [wordSet, setWordSet] = useState(new Set());
     const [disableLetter, setDisableLetter] = useState([]);
+    const [correctWord, setCorrectWord] = useState("");
 
     const [gameOver, setGameOver] = useState({
         gameOver: false,
         guessedWord: false
     });
 
-    //TO DELETE: temp variable for test purposes
-    const correctWord = "OCEAN" 
     useEffect(() => {
         getWord().then((words) => {
             //console.log(words)
-            setWordSet(words.wordSet)
+            setWordSet(words.wordSet);
+            setCorrectWord(words.selectedWord);
         })
     }, [])
+
+    console.log(correctWord);
 
     const onSelectLetter = (keyVal) => {
         if (currAttempt.letterPosition > 4) return;

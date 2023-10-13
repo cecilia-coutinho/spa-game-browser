@@ -10,6 +10,8 @@ export const boardDefault = [
 ];
 
 export const getWord = async () => {
+    let selectedWord;
+
     try {
         const token = await authService.getAccessToken();
         const response = await fetch(`api/Words`, {
@@ -32,8 +34,9 @@ export const getWord = async () => {
 
         const wordArr = Array.from(result).map(item => item.wordName.split('\n'));
         const flattenedArray = [].concat(...wordArr);
+        selectedWord = flattenedArray[Math.floor(Math.random() * flattenedArray.length)];
         const wordSet = new Set(flattenedArray);
-        return { wordSet };
+        return { wordSet, selectedWord };
     } catch (error) {
         console.error('Error: ', error);
         throw error; 
