@@ -1,11 +1,16 @@
-﻿import React, { useContext } from 'react';
+﻿import React, { useContext, useEffect } from 'react';
 import { gameContext } from "./GamePage";
 import '../custom.css';
 
 const Letter = ({ letterPosition, attemptValue }) => {
     //console.log('letterPosition:', letterPosition);
     //console.log('attemptValue:', attemptValue);
-    const { board, correctWord, currAttempt } = useContext(gameContext);
+    const {
+        board,
+        correctWord,
+        currAttempt,
+        setDisableLetter } = useContext(gameContext);
+
     const letter = board[attemptValue][letterPosition];
 
     const correctLetter = correctWord.toUpperCase()[letterPosition] === letter;
@@ -15,6 +20,12 @@ const Letter = ({ letterPosition, attemptValue }) => {
 
     const letterState = currAttempt.attempt > attemptValue &&
         (correctLetter ? "correct" : almostLetter ? "almost" : "error");
+
+    useEffect(() => {
+        if (letter !== "" && !correctLetter && !almostLetter) {
+            setDisableLetter((prev) => [...prev, letter])
+        }
+    }, [currAttempt.attempt]);
 
 
     return (

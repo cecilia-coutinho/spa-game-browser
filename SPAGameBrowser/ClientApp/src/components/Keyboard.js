@@ -4,7 +4,7 @@ import { gameContext } from "./GamePage";
 
 
 const Keyboard = () => {
-    const { onEnter, onDelete, onSelectLetter } = useContext(gameContext);
+    const { onEnter, onDelete, onSelectLetter, disableLetter } = useContext(gameContext);
 
     const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -48,19 +48,28 @@ const Keyboard = () => {
     return (
         <div className="keyboard" onKeyDown={handleKeyboard}>
             <div className="line1">{keys1.map((key, index) => {
-                return <Key key={index} keyVal={key} />
+                return <
+                    Key key={index}
+                    keyVal={key}
+                    disabled={disableLetter.includes(key)} />
             })}
             </div>
 
             <div className="line2">{keys2.map((key, index) => {
-                return <Key key={index + keys1.length} keyVal={key} />
+                return <
+                    Key key={index + keys1.length}
+                    keyVal={key}
+                    disabled={disableLetter.includes(key)} />
             })}
             </div>
 
             <div className="line3">
                 <Key keyVal={"ENTER"} bigKey />
                 {keys3.map((key, index) => {
-                    return <Key key={index + keys1.length + keys2.length} keyVal={key} />
+                    return <
+                        Key key={index + keys1.length + keys2.length}
+                        keyVal={key}
+                        disabled={disableLetter.includes(key)} />
                 })}
                 <Key keyVal={"DELETE"} bigKey />
             </div>

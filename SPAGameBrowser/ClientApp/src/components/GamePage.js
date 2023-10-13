@@ -11,7 +11,8 @@ const GamePage = ({ userId }) => {
     const [board, setBoard] = useState(boardDefault);
     //console.log('board:', board);
     const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPosition: 0 });
-    const [wordSet, setWordSet] = useState(new Set())
+    const [wordSet, setWordSet] = useState(new Set());
+    const [disableLetter, setDisableLetter] = useState([]);
 
     //TO DELETE: temp variable for test purposes
     const correctWord = "OCEAN" 
@@ -74,7 +75,9 @@ const GamePage = ({ userId }) => {
                 onSelectLetter,
                 onDelete,
                 onEnter,
-                correctWord
+                correctWord,
+                disableLetter,
+                setDisableLetter
             }}>
                 <div className="game">
                 <Board />
