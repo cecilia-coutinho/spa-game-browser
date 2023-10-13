@@ -32,7 +32,7 @@ namespace SPAGameBrowser.Controllers
             }
 
             
-            return await _context.Words.ToListAsync();
+            return await _context.Words.OrderBy(w => w.WordId).ToListAsync();
         }
 
         //// GET: api/Words/5
