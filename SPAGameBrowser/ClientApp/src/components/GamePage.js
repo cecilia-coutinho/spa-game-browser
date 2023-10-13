@@ -4,15 +4,25 @@ import Keyboard from './Keyboard';
 import { createContext } from "react";
 import { boardDefault, getWord } from './Words';
 import '../custom.css';
+import GameOver from './GameOver';
 
 export const gameContext = createContext();
 
-const GamePage = ({ userId }) => {
+const GamePage = () => {
     const [board, setBoard] = useState(boardDefault);
-    //console.log('board:', board);
-    const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPosition: 0 });
+
+    const [currAttempt, setCurrAttempt] = useState({
+        attempt: 0,
+        letterPosition: 0
+    });
+
     const [wordSet, setWordSet] = useState(new Set());
     const [disableLetter, setDisableLetter] = useState([]);
+
+    const [gameOver, setGameOver] = useState({
+        gameOver: false,
+        guessedWord: false
+    });
 
     //TO DELETE: temp variable for test purposes
     const correctWord = "OCEAN" 
@@ -56,9 +66,13 @@ const GamePage = ({ userId }) => {
         }
 
         if (currWord === correctWord) {
-            alert("Congratulations! You've won.")
-            //"Oops! You lost. Game over".
+            //alert("Congratulations! You've won.")
+            setGameOver({ gameOver: true, guessedWord: true })
             return;
+        }
+
+        if (currAttempt.attempt >= 4) {
+            setGameOver({gameOver: true, guessedWord: false})
         }
     }
 
@@ -77,11 +91,13 @@ const GamePage = ({ userId }) => {
                 onEnter,
                 correctWord,
                 disableLetter,
-                setDisableLetter
+                setDisableLetter,
+                gameOver,
+                setGameOver
             }}>
                 <div className="game">
                 <Board />
-                <Keyboard />
+                    {gameOver.gameOver ? <GameOver /> : <Keyboard />}
                 </div>
             </gameContext.Provider>
 
