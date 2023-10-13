@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react'
-import { getWord } from './UseFetch/GetWord';
+import { getWord } from './useFetch/GetWord';
+import Wordle from './Wordle';
 
 const GamePage = () => {
     const [solution, setSolution] = useState(null)
