@@ -26,15 +26,9 @@ export const getWord = async () => {
         }
 
         const result = await response.json();
-        //console.log(result)
-
-        if (!Array.isArray(result)) {
-            throw new Error('Unexpected response format. Expected an array.');
-        }
-
         const wordArr = Array.from(result).map(item => item.wordName.split('\n'));
         const flattenedArray = [].concat(...wordArr);
-        selectedWord = flattenedArray[Math.floor(Math.random() * flattenedArray.length)];
+        const selectedWord = flattenedArray[Math.floor(Math.random() * flattenedArray.length)];
         const wordSet = new Set(flattenedArray);
         return { wordSet, selectedWord };
     } catch (error) {
