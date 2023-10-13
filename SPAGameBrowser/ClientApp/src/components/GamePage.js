@@ -67,8 +67,7 @@ const GamePage = () => {
             alert("Incorrect!");
         }
 
-        if (currWord === correctWord) {
-            //alert("Congratulations! You've won.")
+        if (currWord.toLowerCase() === correctWord) {
             setGameOver({ gameOver: true, guessedWord: true })
             return;
         }
