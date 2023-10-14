@@ -1,11 +1,11 @@
 
-.App {
+.game {
     text-align: center;
-    background-color: #121212;
-    width: 100vw;
+    background-color: white;
+    /*width: 100vw;*/
     height: 100vh;
     /* display: flex; */
-    color: white;
+    color: black;
 }
 
 body {
@@ -224,11 +224,42 @@ code {
 /* rows */
 
 h1 {
-    font-size: 1.2em;
+    font-size: 1.5em;
     padding: 20px 0;
-    border-bottom: 1px solid #eee;
     margin: 0 0 30px 0;
-    color: #333;
+    color: #007CBE;
+    text-align: center;
+    position: relative;
+}
+
+    h1::after {
+        content: "";
+        display: block;
+        width: 50%;
+        height: 1px;
+        background-color: #8E9DAF;
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+    }
+
+
+.solution {
+    padding-bottom: 20px;
+}
+
+.board {
+    width: 450px;
+    height: 550px;
+    /*border: 1px solid #EBF7EF;*/
+    border-radius: 5px;
+    /*    padding-bottom: 10px;*/
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    flex-direction: column;
+    background-color: rgba(179, 191, 203, 0.7);
+    box-shadow: 0px 4px 20px rgba(179, 191, 203, 0.8);
 }
 /* rows */
 .row {
@@ -239,32 +270,33 @@ h1 {
 
     .row > div {
         display: block;
-        width: 60px;
-        height: 60px;
-        border: 1px solid #bbb;
+        width: 70px;
+        height: 70px;
+        border: 1px solid #23395B;
+        border-radius: 2px;
         margin: 4px;
         text-align: center;
-        line-height: 60px;
         text-transform: uppercase;
         font-weight: bold;
+        color: #23395B;
         font-size: 2.5em;
     }
 
         .row > div.green {
-            --background: #5ac85a;
-            --border-color: #5ac85a;
+            --background: #528d4e;
+            --border-color: #528d4e;
             animation: flip 0.5s ease forwards;
         }
 
         .row > div.grey {
-            --background: #a1a1a1;
-            --border-color: #a1a1a1;
+            --background: #34495E;
+            --border-color: #34495E;
             animation: flip 0.6s ease forwards;
         }
 
         .row > div.yellow {
-            --background: #e2cc68;
-            --border-color: #e2cc68;
+            --background: #b49f39;
+            --border-color: #b49f39;
             animation: flip 0.5s ease forwards;
         }
 
@@ -304,20 +336,20 @@ h1 {
     }
 
         .keypad > div.green {
-            background: #5ac85a;
-            color: #fff;
+            background-color: #528d4e;
+            color: white;
             transition: all 0.3s ease-in;
         }
 
         .keypad > div.yellow {
-            background: #e2cc68;
-            color: #fff;
+            background-color: #b49f39;
+            color: white;
             transition: all 0.3s ease-in;
         }
 
         .keypad > div.grey {
-            background: #a1a1a1;
-            color: #fff;
+            background-color: #34495E;
+            color: white;
             transition: all 0.3s ease-in;
         }
 

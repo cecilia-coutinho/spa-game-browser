@@ -23,8 +23,7 @@ const Wordle = ({ solution }) => {
 
     return (
         <div>
-            <div>solution - {solution}</div>
-            <div>Current Guess - {currentGuess}</div>
+            <div className="solution">solution - {solution}</div>
             <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
             <Keyboard usedKeys={usedKeys} />
         </div>

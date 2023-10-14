@@ -1,5 +1,5 @@
-﻿import { useEffect, useState } from 'react'
-import { getWord } from './useFetch/GetWord';
+﻿import { useEffect, useState } from 'react';
+import { getWord } from './UseFetch/GetWord';
 import Wordle from './Wordle';
 
 const GamePage = () => {
@@ -13,10 +13,12 @@ const GamePage = () => {
             })
     }, [setSolution])
 
+    //console.log('solution: ', solution);
+
     return (
-        <div className="App">
-            <h1>Wordle</h1>
-            {solution && <div>Solution is: {solution}</div>}
+        <div className="game">
+            <h1>Wordle Clone</h1>
+            {solution && <Wordle solution={ solution } />}
         </div>
     )
 };
