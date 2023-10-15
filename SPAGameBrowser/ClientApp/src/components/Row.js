@@ -4,8 +4,8 @@ const Row = ({ guess, currentGuess }) => {
     if (guess) {
         return (
             <div className="row past">
-                {guess.map((l, i) => (
-                    <div key={i} className={l.color}>{l.key}</div>
+                {guess.map((letter, index) => (
+                    <div key={index} className={letter.color}>{letter.key}</div>
                 ))}
             </div>
         )
@@ -16,11 +16,11 @@ const Row = ({ guess, currentGuess }) => {
 
         return (
             <div className="row current">
-                {letters.map((letter, i) => (
-                    <div key={i} className="filled">{letter}</div>
+                {letters.map((letter, index) => (
+                    <div key={index} className="filled">{letter}</div>
                 ))}
-                {[...Array(5 - letters.length)].map((_, i) => (
-                    <div key={i}></div>
+                {[...Array(5 - letters.length)].map((_, index) => (
+                    <div key={index}></div>
                 ))}
             </div>
         )

@@ -1,14 +1,14 @@
 ﻿import React from 'react';
 import Row from './Row';
 
-const Grid = ({ guesses, currentGuess, turn }) => {
+const Grid = ({ currentGuess, turn, guesses }) => {
   return (
         <div className="board">
-            {guesses.map((g, i) => {
-                if (turn === i) {
-                    return <Row key={i} currentGuess={currentGuess} />
+            {guesses.map((guess, index) => {
+                if (turn === index) {
+                    return <Row key={index} currentGuess={currentGuess} />
                 }
-                return <Row key={i} guess={g} />
+                return <Row key={index} guess={guess} />
             })}
         </div>
     )

@@ -10,21 +10,21 @@ const UseWordle = (solution) => {
 
     const formatGuess = () => {
         let solutionArray = [...solution]
-        let formattedGuess = [...currentGuess].map((l) => {
-            return { key: l, color: 'grey' }
+        let formattedGuess = [...currentGuess].map((letter) => {
+            return { key: letter, color: 'grey' }
         })
 
-        formattedGuess.forEach((l, i) => {
-            if (solution[i] === l.key) {
+        formattedGuess.forEach((letter, i) => {
+            if (solution[i] === letter.key) {
                 formattedGuess[i].color = 'green'
                 solutionArray[i] = null
             }
         })
 
-        formattedGuess.forEach((l, i) => {
-            if (solutionArray.includes(l.key) && l.color !== 'green') {
+        formattedGuess.forEach((letter, i) => {
+            if (solutionArray.includes(letter.key) && letter.color !== 'green') {
                 formattedGuess[i].color = 'yellow'
-                solutionArray[solutionArray.indexOf(l.key)] = null
+                solutionArray[solutionArray.indexOf(letter.key)] = null
             }
         })
 
@@ -47,19 +47,19 @@ const UseWordle = (solution) => {
             return prevTurn + 1
         })
         setUsedKeys(prevUsedKeys => {
-            formattedGuess.forEach(l => {
-                const currentColor = prevUsedKeys[l.key]
+            formattedGuess.forEach(letter => {
+                const currentColor = prevUsedKeys[letter.key]
 
-                if (l.color === 'green') {
-                    prevUsedKeys[l.key] = 'green'
+                if (letter.color === 'green') {
+                    prevUsedKeys[letter.key] = 'green'
                     return
                 }
-                if (l.color === 'yellow' && currentColor !== 'green') {
-                    prevUsedKeys[l.key] = 'yellow'
+                if (letter.color === 'yellow' && currentColor !== 'green') {
+                    prevUsedKeys[letter.key] = 'yellow'
                     return
                 }
-                if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
-                    prevUsedKeys[l.key] = 'grey'
+                if (letter.color === 'grey' && currentColor !== ('green' || 'yellow')) {
+                    prevUsedKeys[letter.key] = 'grey'
                     return
                 }
             })
