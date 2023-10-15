@@ -1,109 +1,26 @@
-﻿import React, { useState, useEffect } from 'react';
-import Board from './Board';
-import Keyboard from './Keyboard';
-import { createContext } from "react";
-import { boardDefault, getWord } from './Words';
-import '../custom.css';
-import GameOver from './GameOver';
-
-export const gameContext = createContext();
+﻿import { useEffect, useState } from 'react';
+import { getWord } from './UseFetch/GetWord';
+import Wordle from './Wordle';
 
 const GamePage = () => {
-    const [board, setBoard] = useState(boardDefault);
-
-    const [currAttempt, setCurrAttempt] = useState({
-        attempt: 0,
-        letterPosition: 0
-    });
-
-    const [wordSet, setWordSet] = useState(new Set());
-    const [disableLetter, setDisableLetter] = useState([]);
-    const [correctWord, setCorrectWord] = useState("");
-
-    const [gameOver, setGameOver] = useState({
-        gameOver: false,
-        guessedWord: false
-    });
+    const [solution, setSolution] = useState(null)
 
     useEffect(() => {
-        getWord().then((words) => {
-            setWordSet(words.wordSet);
-            setCorrectWord(words.selectedWord);
-        })
-    }, [])
+        getWord()
+            .then(getWord => {
+                const randomSolution = getWord[Math.floor(Math.random() * getWord.length)]
+                setSolution(randomSolution.wordName)
+            })
+    }, [setSolution])
 
-    console.log(correctWord);
-
-    const onSelectLetter = (keyVal) => {
-        if (currAttempt.letterPosition > 4) return;
-
-        const newBoard = [...board];
-        newBoard[currAttempt.attempt][currAttempt.letterPosition] = keyVal;
-        setBoard(newBoard);
-        setCurrAttempt({ ...currAttempt, letterPosition: currAttempt.letterPosition + 1 });
-    }
-
-    const onDelete = () => {
-        if (currAttempt.letterPosition === 0) return;
-
-        const newBoard = [...board];
-        newBoard[currAttempt.attempt][currAttempt.letterPosition - 1] = "";
-        setBoard(newBoard);
-        setCurrAttempt({ ...currAttempt, letterPosition: currAttempt.letterPosition - 1 })
-    }
-
-    const onEnter = () => {
-        if (currAttempt.letterPosition !== 5) return;
-
-        let currWord = "";
-        for (let i = 0; i < 5; i++) {
-            currWord += board[currAttempt.attempt][i];
-        }
-
-        setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPosition: 0 })
-
-        if (!wordSet.has(currWord.toLowerCase())) {
-            alert("Incorrect!");
-        }
-
-        if (currWord.toLowerCase() === correctWord) {
-            setGameOver({ gameOver: true, guessedWord: true })
-            return;
-        }
-
-        if (currAttempt.attempt >= 4) {
-            setGameOver({gameOver: true, guessedWord: false})
-        }
-    }
+    console.log('solution: ', solution);
 
     return (
-        <div>
-        <div className="gameTitle">
+        <div className="game">
             <h1>Wordle Clone</h1>
-            <p>Guess the word</p>
+            {solution && <Wordle solution={ solution } />}
         </div>
-            <gameContext.Provider value={{
-                board,
-                setBoard,
-                currAttempt,
-                setCurrAttempt,
-                onSelectLetter,
-                onDelete,
-                onEnter,
-                correctWord,
-                disableLetter,
-                setDisableLetter,
-                gameOver,
-                setGameOver
-            }}>
-                <div className="game">
-                <Board />
-                    {gameOver.gameOver ? <GameOver /> : <Keyboard />}
-                </div>
-            </gameContext.Provider>
-
-        </div>
-    );
+    )
 };
 
 export default GamePage;

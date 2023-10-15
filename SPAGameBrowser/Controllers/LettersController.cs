@@ -4,29 +4,31 @@ using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
 
+
 namespace SPAGameBrowser.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class WordsController : ControllerBase
+    public class LettersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public WordsController(ApplicationDbContext context)
+        public LettersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Words
+        // GET: api/Letters
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Word>>> GetWords()
+        public async Task<ActionResult<IEnumerable<Letter>>> GetLetters()
         {
-            if (_context.Words == null)
+            if (_context.Letters == null)
             {
                 return NotFound();
             }
 
-            return await _context.Words.ToListAsync();
+
+            return await _context.Letters.ToListAsync();
         }
     }
 }
