@@ -1,20 +1,25 @@
-﻿import React, { useContext } from 'react';
-import { gameContext } from "./GamePage"
+﻿import React from 'react';
 
-const GameOver = () => {
-    const {
-        gameOver,
-        currAttempt,
-        correctWord } = useContext(gameContext);
+const GameOver = ({ isCorrect, solution, turn }) => {
+
     return (
         <div className="gameOver">
-            <h3>
-                {gameOver.guessedWord ? "Congratulations! You've won." : "Oops! You lost. Game over"}
-            </h3>
-            <h1>Correct word: {correctWord}</h1>
-            {gameOver.guessedWord && (<h3>You've guessed in {currAttempt.attempt} attempts.</h3>) }
+            {isCorrect && (
+                <div>
+                    <h1>Congrats! You've won.</h1>
+                    <p className="solution">Word: {solution}</p>
+                    <p>You've guessed in {turn} attempts.</p>
+                </div>
+            )}
+            {!isCorrect && (
+                <div>
+                    <h1>Oops! You lost.</h1>
+                    <p className="solution">Correct word: {solution}</p>
+                    <p>Game over! Maybe next time.</p>
+                </div>
+            )}
         </div>
-    );
+    )
 }
 
 export default GameOver;

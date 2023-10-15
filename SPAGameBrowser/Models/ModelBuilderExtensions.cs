@@ -73,6 +73,37 @@ namespace SPAGameBrowser.Models
                 new Word { WordId = 62, WordName = "dream" },
                 new Word { WordId = 63, WordName = "happy" }
             });
+
+            //Letters:
+            modelBuilder.Entity<Letter>().HasData(new[]
+            {
+                new Letter { LetterId = 1, Key = 'a' },
+                new Letter { LetterId = 2, Key = 'b' },
+                new Letter { LetterId = 3, Key = 'c' },
+                new Letter { LetterId = 4, Key = 'd' },
+                new Letter { LetterId = 5, Key = 'e' },
+                new Letter { LetterId = 6, Key = 'f' },
+                new Letter { LetterId = 7, Key = 'g' },
+                new Letter { LetterId = 8, Key = 'h' },
+                new Letter { LetterId = 9, Key = 'i' },
+                new Letter { LetterId = 10, Key = 'j' },
+                new Letter { LetterId = 11, Key = 'k' },
+                new Letter { LetterId = 12, Key = 'l' },
+                new Letter { LetterId = 13, Key = 'm' },
+                new Letter { LetterId = 14, Key = 'n' },
+                new Letter { LetterId = 15, Key = 'o' },
+                new Letter { LetterId = 16, Key = 'p' },
+                new Letter { LetterId = 17, Key = 'q' },
+                new Letter { LetterId = 18, Key = 'r' },
+                new Letter { LetterId = 19, Key = 's' },
+                new Letter { LetterId = 20, Key = 't' },
+                new Letter { LetterId = 21, Key = 'u' },
+                new Letter { LetterId = 22, Key = 'v' },
+                new Letter { LetterId = 23, Key = 'w' },
+                new Letter { LetterId = 24, Key = 'x' },
+                new Letter { LetterId = 25, Key = 'y' },
+                new Letter { LetterId = 26, Key = 'z' }
+            });
         }
     }
 }
