@@ -11,6 +11,8 @@ namespace SPAGameBrowser.Data
         public DbSet<Word>? Words { get; set; }
         public DbSet<UserScoreBoard>? UserScores { get; set; }
 
+        public DbSet<Letter>? Letters { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options, operationalStoreOptions)
         {
@@ -26,6 +28,10 @@ namespace SPAGameBrowser.Data
 
             modelBuilder.Entity<Word>()
                 .HasIndex(u => u.WordName)
+                .IsUnique();
+
+            modelBuilder.Entity<Letter>()
+                .HasIndex(u => u.Key)
                 .IsUnique();
 
             modelBuilder.Entity<UserScoreBoard>()
