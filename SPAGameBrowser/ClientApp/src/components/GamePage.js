@@ -13,7 +13,7 @@ const GamePage = () => {
             })
     }, [setSolution])
 
-    //console.log('solution: ', solution);
+    console.log('solution: ', solution);
 
     return (
         <div className="game">
