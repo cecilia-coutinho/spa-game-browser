@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useState } from 'react';
 
 const UseWordle = (solution) => {
     const [turn, setTurn] = useState(0);
