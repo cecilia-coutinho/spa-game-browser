@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const GameOver = ({ isCorrect, solution, turn }) => {
+const GameOver = ({ isCorrect, solution, turn, handlePlayAgain  }) => {
 
     return (
         <div className="gameOver">
@@ -9,6 +9,7 @@ const GameOver = ({ isCorrect, solution, turn }) => {
                     <h1>Congrats! You've won.</h1>
                     <p className="solution">Word: {solution}</p>
                     <p>You've guessed in {turn} attempts.</p>
+                    <button onClick={ handlePlayAgain }>Play Again</button>
                 </div>
             )}
             {!isCorrect && (
@@ -16,6 +17,7 @@ const GameOver = ({ isCorrect, solution, turn }) => {
                     <h1>Oops! You lost.</h1>
                     <p className="solution">Correct word: {solution}</p>
                     <p>Game over! Maybe next time.</p>
+                    <button onClick={ handlePlayAgain }>Play Again</button>
                 </div>
             )}
         </div>

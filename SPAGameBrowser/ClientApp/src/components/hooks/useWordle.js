@@ -1,12 +1,13 @@
 ﻿import { useState } from 'react';
 
-const UseWordle = (solution) => {
+const UseWordle = ({ solution, fetchData }) => {
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]);
     const [history, setHistory] = useState([]);
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({});
+    const [showModal, setShowModal] = useState(false);
 
     const formatGuess = () => {
         let solutionArray = [...solution]
@@ -71,15 +72,19 @@ const UseWordle = (solution) => {
 
     const handleKeyup = ({ key }) => {
         if (key === 'Enter') {
+            if (turn > 5) {
+                console.log('you used all your guesses!')
+                return
+            }
 
             // do not allow duplicate words
             if (history.includes(currentGuess)) {
-                alert('you already tried that word.')
+                console.log('you already tried that word.')
                 return
             }
 
             if (currentGuess.length !== 5) {
-                alert('word must be 5 chars.')
+                console.log('word must be 5 chars.')
                 return
             }
             const formatted = formatGuess()
@@ -97,7 +102,27 @@ const UseWordle = (solution) => {
         }
     }
 
-    return { turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup }
+    const handlePlayAgain = () => {
+        setIsCorrect(false);
+        setGuesses([...Array(6)].fill(null));
+        setHistory([]);
+        setCurrentGuess('');
+        setTurn(0);
+        setShowModal(false);
+        fetchData();
+    }
+
+    return {
+        turn,
+        currentGuess,
+        guesses,
+        isCorrect,
+        usedKeys,
+        handleKeyup,
+        handlePlayAgain,
+        showModal,
+        setShowModal
+    }
 };
 
 export default UseWordle;

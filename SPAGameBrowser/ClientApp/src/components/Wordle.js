@@ -4,9 +4,17 @@ import Keyboard from './Keyboard';
 import useWordle from './hooks/useWordle';
 import GameOver from './GameOver';
 
-const Wordle = ({ solution }) => {
-    const { currentGuess, guesses, turn, isCorrect, usedKeys, handleKeyup } = useWordle(solution)
-    const [showModal, setShowModal] = useState(false)
+const Wordle = ({ solution, fetchData }) => {
+    const {
+        currentGuess,
+        guesses,
+        turn,
+        isCorrect,
+        usedKeys,
+        handleKeyup,
+        handlePlayAgain,
+        showModal,
+        setShowModal, } = useWordle({ solution, fetchData })
 
     useEffect(() => {
         window.addEventListener('keyup', handleKeyup)
@@ -27,7 +35,7 @@ const Wordle = ({ solution }) => {
         <div>
             <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
             <Keyboard usedKeys={usedKeys} handleKeyup={  handleKeyup } />
-            {showModal && <GameOver isCorrect={isCorrect} turn={turn} solution={solution} />}
+            {showModal && <GameOver isCorrect={isCorrect} turn={turn} solution={solution} handlePlayAgain={handlePlayAgain} />}
         </div>
     )
 };
