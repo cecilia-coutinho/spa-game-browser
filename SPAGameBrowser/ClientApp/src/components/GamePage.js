@@ -9,13 +9,20 @@ const GamePage = ({ setShowModal }) => {
         getWord()
             .then(getWord => {
                 const randomSolution = getWord[Math.floor(Math.random() * getWord.length)];
-                setSolution(randomSolution.wordName);
+                const storedSolution = localStorage.getItem('wordleSolution');
+                if (storedSolution) {
+                    setSolution(storedSolution);
+                } else {
+                    setSolution(randomSolution.wordName);
+                    localStorage.setItem('wordleSolution', randomSolution.wordName);
+                }
             });
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+
 
     console.log('solution: ', solution);
 

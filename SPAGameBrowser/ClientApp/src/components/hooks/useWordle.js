@@ -21,7 +21,7 @@ const UseWordle = ({ solution, fetchData }) => {
             setIsCorrect(parsedGameState.isCorrect);
             setUsedKeys(parsedGameState.usedKeys);
         }
-    }, []);
+    }, [solution]);
 
     // Save game state
     useEffect(() => {
@@ -136,9 +136,12 @@ const UseWordle = ({ solution, fetchData }) => {
         setCurrentGuess('');
         setTurn(0);
         setShowModal(false);
-        fetchData();
 
         localStorage.removeItem('wordleGameState');
+        localStorage.removeItem('wordleSolution');
+
+        // Fetch a new solution
+        fetchData();
     }
 
     return {
