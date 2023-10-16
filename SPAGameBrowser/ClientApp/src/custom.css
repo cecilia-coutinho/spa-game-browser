@@ -207,6 +207,24 @@ h1 {
         font-family: 'Arial', sans-serif;
     }
 
+    .gameOver button {
+        background-color: #FFFD98;
+        color: #23395b;
+        font-size: 1em;
+        font-weight: 600;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+    }
+
+        .gameOver button:hover {
+            background-color: #FBAF00;
+        }
+
+
 .keyboard {
     max-width: 500px;
     margin: 20px auto;
