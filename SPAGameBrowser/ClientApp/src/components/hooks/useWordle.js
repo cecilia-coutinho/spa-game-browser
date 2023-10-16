@@ -135,6 +135,7 @@ const UseWordle = ({ solution, fetchData }) => {
         setHistory([]);
         setCurrentGuess('');
         setTurn(0);
+        setUsedKeys({});
         setShowModal(false);
 
         localStorage.removeItem('wordleGameState');
