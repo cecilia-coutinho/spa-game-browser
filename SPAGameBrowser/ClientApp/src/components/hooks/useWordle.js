@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 
 const UseWordle = ({ solution, fetchData }) => {
     const [turn, setTurn] = useState(0);
@@ -8,6 +8,33 @@ const UseWordle = ({ solution, fetchData }) => {
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({});
     const [showModal, setShowModal] = useState(false);
+
+    // Load game state from local storage
+    useEffect(() => {
+        const savedGameState = localStorage.getItem('wordleGameState');
+        if (savedGameState) {
+            const parsedGameState = JSON.parse(savedGameState);
+            setTurn(parsedGameState.turn);
+            setCurrentGuess(parsedGameState.currentGuess);
+            setGuesses(parsedGameState.guesses);
+            setHistory(parsedGameState.history);
+            setIsCorrect(parsedGameState.isCorrect);
+            setUsedKeys(parsedGameState.usedKeys);
+        }
+    }, []);
+
+    // Save game state
+    useEffect(() => {
+        const gameStateToSave = {
+            turn,
+            currentGuess,
+            guesses,
+            history,
+            isCorrect,
+            usedKeys,
+        };
+        localStorage.setItem('wordleGameState', JSON.stringify(gameStateToSave));
+    }, [turn, currentGuess, guesses, history, isCorrect, usedKeys]);
 
     const formatGuess = () => {
         let solutionArray = [...solution]
@@ -110,6 +137,8 @@ const UseWordle = ({ solution, fetchData }) => {
         setTurn(0);
         setShowModal(false);
         fetchData();
+
+        localStorage.removeItem('wordleGameState');
     }
 
     return {
