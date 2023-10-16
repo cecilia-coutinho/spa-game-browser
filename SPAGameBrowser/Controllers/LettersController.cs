@@ -37,7 +37,7 @@ namespace SPAGameBrowser.Controllers
             }
             else
             {
-                _logger.Log(LogLevel.Information, "Letters NOT found in cache. Loading...");
+                _logger.Log(LogLevel.Information, "Letters NOT found in cache. Loading.");
 
                 if (_context.Letters == null)
                 {
@@ -45,12 +45,6 @@ namespace SPAGameBrowser.Controllers
                 }
 
                 letters = await _context.Letters.ToListAsync();
-
-                //var cacheEntryOptions = new MemoryCacheEntryOptions()
-                //    .SetSlidingExpiration(TimeSpan.FromSeconds(60))
-                //    .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                //    .SetPriority(CacheItemPriority.Normal)
-                //    .SetSize(1024);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromDays(365))
@@ -61,17 +55,9 @@ namespace SPAGameBrowser.Controllers
 
             stopwatch.Stop();
 
-            _logger.Log(LogLevel.Information, "PassedTime" + stopwatch.ElapsedMilliseconds);
+            _logger.Log(LogLevel.Information, "PassedTime: " + stopwatch.ElapsedMilliseconds);
 
             return Ok(letters);
         }
-
-        //public IActionResult ClearCache()
-        //{
-        //    _cache.Remove(cacheKey);
-        //    _logger.Log(LogLevel.Information, "Cleared cache");
-
-        //    return Ok();
-        //}
     }
 }
