@@ -8,7 +8,14 @@ const Keyboard = ({ usedKeys, handleKeyup }) => {
     useEffect(() => {
         getLetter()
             .then(getLetter => {
-                setLetters(getLetter)
+
+                const enter = [
+                    { key: 'Enter' }
+                ];
+                const backspace = [
+                    { key: 'Backspace' }
+                ];
+                setLetters([...enter, ...getLetter, ...backspace])
             })
     }, [])
 
@@ -16,13 +23,14 @@ const Keyboard = ({ usedKeys, handleKeyup }) => {
         <div className="keyboard">
             {letters && letters.map(letter => {
                 const color = usedKeys[letter.key]
+                const displayKey = letter.key === 'Backspace' ? 'DEL' : letter.key.toUpperCase();
                 return (
                     <div
                         key={letter.key}
                         className={color}
                         onClick={() => handleKeyup({ key: letter.key })}
                     >
-                        {letter.key}
+                        {displayKey}
                     </div>
                 )
             })}
