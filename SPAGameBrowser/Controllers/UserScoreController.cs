@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
@@ -16,7 +17,7 @@ namespace SPAGameBrowser.Controllers
             _context = context;
         }
 
-        // GET: api/UserScoreBoards
+        // GET: api/UsersScore
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserScore>>> GetAllUsersScores()
         {
@@ -27,7 +28,7 @@ namespace SPAGameBrowser.Controllers
             return await _context.UserScores.ToListAsync();
         }
 
-        // GET: api/UserScoreBoards/5
+        // GET: api/UserScore/5
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScores(string id)
         {
@@ -48,7 +49,7 @@ namespace SPAGameBrowser.Controllers
             return userScoreBoard;
         }
 
-        // POST: api/UserScoreBoards
+        // POST: api/UserScore
         [HttpPost]
         public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
         {
@@ -60,7 +61,7 @@ namespace SPAGameBrowser.Controllers
             _context.UserScores.Add(userScore);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserScoreBoard", new { id = userScore.UserScoreId }, userScore);
+            return userScore;
         }
     }
 }
