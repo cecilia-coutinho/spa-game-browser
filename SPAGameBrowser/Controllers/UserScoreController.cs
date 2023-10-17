@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
@@ -12,11 +7,11 @@ namespace SPAGameBrowser.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserScoreBoardsController : ControllerBase
+    public class UserScoreController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public UserScoreBoardsController(ApplicationDbContext context)
+        public UserScoreController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,10 +20,10 @@ namespace SPAGameBrowser.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserScore>>> GetAllUsersScores()
         {
-          if (_context.UserScores == null)
-          {
-              return NotFound();
-          }
+            if (_context.UserScores == null)
+            {
+                return NotFound();
+            }
             return await _context.UserScores.ToListAsync();
         }
 
@@ -36,10 +31,10 @@ namespace SPAGameBrowser.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScores(string id)
         {
-          if (_context.UserScores == null)
-          {
-              return NotFound();
-          }
+            if (_context.UserScores == null)
+            {
+                return NotFound();
+            }
             var userScoreBoard = await _context.UserScores
                 .Where(us => us.FkUserId == id)
                 .OrderByDescending(us => us.Finished_At)
@@ -57,10 +52,10 @@ namespace SPAGameBrowser.Controllers
         [HttpPost]
         public async Task<ActionResult<UserScore>> PostUserScoreBoard(UserScore userScoreBoard)
         {
-          if (_context.UserScores == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.UserScores'  is null.");
-          }
+            if (_context.UserScores == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.UserScores'  is null.");
+            }
 
             _context.UserScores.Add(userScoreBoard);
             await _context.SaveChangesAsync();
