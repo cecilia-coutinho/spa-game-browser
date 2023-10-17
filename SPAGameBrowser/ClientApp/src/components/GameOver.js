@@ -1,6 +1,12 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 
-const GameOver = ({ isCorrect, solution, turn, handlePlayAgain  }) => {
+const GameOver = ({ isCorrect, solution, turn, handlePlayAgain, handlePostScore }) => {
+
+    useEffect(() => {
+        if (isCorrect) {
+            handlePostScore();
+        }
+    }, [isCorrect]);
 
     return (
         <div className="gameOver">

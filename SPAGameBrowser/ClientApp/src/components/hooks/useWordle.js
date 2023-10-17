@@ -62,6 +62,8 @@ const UseWordle = ({ solution, fetchData }) => {
     const addNewGuess = (formattedGuess) => {
         if (currentGuess === solution) {
             setIsCorrect(true)
+            const finishedAt = new Date()
+            localStorage.setItem('finishedAt', finishedAt.toISOString())
         }
         setGuesses(prevGuesses => {
             let newGuesses = [...prevGuesses]
@@ -99,10 +101,6 @@ const UseWordle = ({ solution, fetchData }) => {
 
     const handleKeyup = ({ key }) => {
         if (key === 'Enter') {
-            if (turn > 5) {
-                console.log('you used all your guesses!')
-                return
-            }
 
             // do not allow duplicate words
             if (history.includes(currentGuess)) {
@@ -140,6 +138,8 @@ const UseWordle = ({ solution, fetchData }) => {
 
         localStorage.removeItem('wordleGameState');
         localStorage.removeItem('wordleSolution');
+        localStorage.removeItem('startedAt');
+        localStorage.removeItem('finishedAt');
 
         // Fetch a new solution
         fetchData();
