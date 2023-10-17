@@ -50,17 +50,17 @@ namespace SPAGameBrowser.Controllers
 
         // POST: api/UserScoreBoards
         [HttpPost]
-        public async Task<ActionResult<UserScore>> PostUserScoreBoard(UserScore userScoreBoard)
+        public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
         {
             if (_context.UserScores == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.UserScores'  is null.");
             }
 
-            _context.UserScores.Add(userScoreBoard);
+            _context.UserScores.Add(userScore);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserScoreBoard", new { id = userScoreBoard.UserScoreId }, userScoreBoard);
+            return CreatedAtAction("GetUserScoreBoard", new { id = userScore.UserScoreId }, userScore);
         }
     }
 }
