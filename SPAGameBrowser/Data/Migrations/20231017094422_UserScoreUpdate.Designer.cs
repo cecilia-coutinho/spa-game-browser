@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SPAGameBrowser.Data;
 
@@ -11,9 +12,10 @@ using SPAGameBrowser.Data;
 namespace SPAGameBrowser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231017094422_UserScoreUpdate")]
+    partial class UserScoreUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -533,9 +535,6 @@ namespace SPAGameBrowser.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserScoreId"), 1L, 1);
 
-                    b.Property<int>("Attempts")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Finished_At")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -548,12 +547,18 @@ namespace SPAGameBrowser.Data.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsGuessed")
+                    b.Property<int>("IpAddress")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsGuessesDone")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("Started_At")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("TimeGuesses")
+                        .HasColumnType("int");
 
                     b.HasKey("UserScoreId");
 

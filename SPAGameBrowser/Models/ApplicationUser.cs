@@ -11,6 +11,6 @@ namespace SPAGameBrowser.Models
         [StringLength(15, MinimumLength = 4, ErrorMessage = "String length must be greater than or equal 4 characters and not exceed 15 characters")]
         public string? Nickname { get; set; }
 
-        public List<UserScoreBoard>? UserScoreBoards { get; set; }
+        public List<UserScore>? UserScores { get; set; }
     }
 }

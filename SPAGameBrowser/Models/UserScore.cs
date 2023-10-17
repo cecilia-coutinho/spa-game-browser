@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace SPAGameBrowser.Models
 {
-    public class UserScoreBoard
+    public class UserScore
     {
         [Key]
         public int UserScoreId { get; set; }
@@ -16,16 +16,12 @@ namespace SPAGameBrowser.Models
         public int? FkWordId { get; set; }
 
         [Required, NotNull]
-        [Display(Name = "IP Address")]
-        public int IpAddress { get; set; }
+        [Display(Name = "Attempts")]
+        [Range(0, 6)]
+        public int Attempts { get; set; }
 
         [Required, NotNull]
-        [Display(Name = "Time Guesses")]
-        [Range(0, 5)]
-        public int TimeGuesses { get; set; } = 0;
-
-        [Required, NotNull]
-        public bool IsGuessesDone { get; set; } = false;
+        public bool IsGuessed { get; set; }
 
         [Required, NotNull]
         public DateTime? Started_At { get; set; }

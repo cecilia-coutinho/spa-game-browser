@@ -9,7 +9,7 @@ namespace SPAGameBrowser.Data
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         public DbSet<Word>? Words { get; set; }
-        public DbSet<UserScoreBoard>? UserScores { get; set; }
+        public DbSet<UserScore>? UserScores { get; set; }
 
         public DbSet<Letter>? Letters { get; set; }
 
@@ -34,14 +34,14 @@ namespace SPAGameBrowser.Data
                 .HasIndex(u => u.Key)
                 .IsUnique();
 
-            modelBuilder.Entity<UserScoreBoard>()
+            modelBuilder.Entity<UserScore>()
             .HasOne(u => u.ApplicationUsers)
-            .WithMany(a => a.UserScoreBoards)
+            .WithMany(a => a.UserScores)
             .HasForeignKey(u => u.FkUserId);
 
-            modelBuilder.Entity<UserScoreBoard>()
+            modelBuilder.Entity<UserScore>()
                 .HasOne(u => u.Words)
-                .WithMany(a => a.UserScoreBoards)
+                .WithMany(a => a.UserScores)
                 .HasForeignKey(u => u.FkWordId);
 
             modelBuilder.Seed();
