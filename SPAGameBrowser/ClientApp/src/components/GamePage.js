@@ -3,9 +3,10 @@ import { getWord } from './UseFetch/GetWord';
 import Wordle from './Wordle';
 
 const GamePage = ({ setShowModal }) => {
-    const [solution, setSolution] = useState(null)
+    const [solution, setSolution] = useState(null);
+    const [solutionId, setSolutionId] = useState(null);
 
-    const fetchData = () => {
+    const fetchData = async () => {
         getWord()
             .then(getWord => {
                 const randomSolution = getWord[Math.floor(Math.random() * getWord.length)];
@@ -14,7 +15,12 @@ const GamePage = ({ setShowModal }) => {
                     setSolution(storedSolution);
                 } else {
                     setSolution(randomSolution.wordName);
+                    setSolutionId(randomSolution.wordId);
+                    console.log('solutionId: ', solutionId)
                     localStorage.setItem('wordleSolution', randomSolution.wordName);
+
+                    const startedAt = new Date();
+                    localStorage.setItem('startedAt', startedAt.toISOString());
                 }
             });
     };
@@ -29,7 +35,7 @@ const GamePage = ({ setShowModal }) => {
     return (
         <div className="game">
             <h1>Wordle Clone</h1>
-            {solution && <Wordle solution={solution} fetchData={fetchData} setShowModal={setShowModal} />}
+            {solution && <Wordle solution={solution} solutionId={solutionId} fetchData={fetchData} setShowModal={setShowModal} />}
         </div>
     );
 };
