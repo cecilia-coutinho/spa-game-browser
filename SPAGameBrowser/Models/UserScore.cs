@@ -24,10 +24,10 @@ namespace SPAGameBrowser.Models
         public bool IsGuessed { get; set; }
 
         [Required, NotNull]
-        public DateTime? Started_At { get; set; }
+        public string? Started_At { get; set; }
 
         [Required]
-        public DateTime? Finished_At { get; set; }
+        public string? Finished_At { get; set; }
 
 
         [ForeignKey("FkUserId")]
