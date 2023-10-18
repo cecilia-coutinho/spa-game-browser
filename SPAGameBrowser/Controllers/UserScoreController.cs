@@ -51,6 +51,7 @@ namespace SPAGameBrowser.Controllers
 
         // POST: api/UserScoreBoards
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
         {
             if (_context.UserScores == null)
