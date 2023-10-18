@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
+using System.Security.Claims;
 
 namespace SPAGameBrowser.Controllers
 {
@@ -49,7 +52,7 @@ namespace SPAGameBrowser.Controllers
             return userScoreBoard;
         }
 
-        // POST: api/UserScoreBoards
+        // POST: api/UserScore
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
@@ -59,10 +62,18 @@ namespace SPAGameBrowser.Controllers
                 return Problem("Entity set 'ApplicationDbContext.UserScores'  is null.");
             }
 
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                throw new ArgumentNullException("userId");
+            }
+
+            userScore.FkUserId = userId;
             _context.UserScores.Add(userScore);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserScoreBoard", new { id = userScore.UserScoreId }, userScore);
+            return CreatedAtAction("GetUserScore", new { id = userScore.UserScoreId }, userScore);
         }
     }
 }

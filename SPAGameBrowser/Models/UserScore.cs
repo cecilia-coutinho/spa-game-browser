@@ -9,7 +9,6 @@ namespace SPAGameBrowser.Models
         [Key]
         public int UserScoreId { get; set; }
 
-        [Required, NotNull]
         public string? FkUserId { get; set; }
 
         [Required, NotNull]

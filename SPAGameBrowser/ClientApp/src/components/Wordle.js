@@ -44,7 +44,6 @@ const Wordle = ({ solution, solutionId, fetchData }) => {
         authService.getAccessToken()
         .then(token => {
             return axios.post('/api/UserScore', {
-                FkUserId: '2',
                 FkWordId: solutionId,
                 Attempts: turn,
                 IsGuessed: isCorrect,
