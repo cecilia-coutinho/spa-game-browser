@@ -11,16 +11,19 @@ const GamePage = ({ setShowModal }) => {
             .then(getWord => {
                 const randomSolution = getWord[Math.floor(Math.random() * getWord.length)];
                 const storedSolution = localStorage.getItem('wordleSolution');
+                const storedSolutionId = localStorage.getItem('wordleSolutionId');
+
                 if (storedSolution) {
                     setSolution(storedSolution);
+                    setSolutionId(storedSolutionId);
                 } else {
                     setSolution(randomSolution.wordName);
                     setSolutionId(randomSolution.wordId);
-                    console.log('solutionId: ', solutionId)
                     localStorage.setItem('wordleSolution', randomSolution.wordName);
+                    localStorage.setItem('wordleSolutionId', randomSolution.wordId);
 
-                    const startedAt = new Date();
-                    localStorage.setItem('startedAt', startedAt.toISOString());
+                    const startedAt = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+                    localStorage.setItem('startedAt', startedAt)
                 }
             });
     };
@@ -35,7 +38,13 @@ const GamePage = ({ setShowModal }) => {
     return (
         <div className="game">
             <h1>Wordle Clone</h1>
-            {solution && <Wordle solution={solution} solutionId={solutionId} fetchData={fetchData} setShowModal={setShowModal} />}
+            {solution &&
+                <Wordle
+                    solution={solution}
+                    solutionId={solutionId}
+                    fetchData={fetchData}
+                    setShowModal={setShowModal}
+                />}
         </div>
     );
 };

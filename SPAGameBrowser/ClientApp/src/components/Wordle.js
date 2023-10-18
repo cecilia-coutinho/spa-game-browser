@@ -3,9 +3,12 @@ import Grid from './Grid';
 import Keyboard from './Keyboard';
 import useWordle from './hooks/useWordle';
 import GameOver from './GameOver';
-import authService from './api-authorization/AuthorizeService';
+import axios from 'axios';
+//import authService from './api-authorization/AuthorizeService';
 
 const Wordle = ({ solution, solutionId, fetchData }) => {
+    const [hasPostedScore, setHasPostedScore] = useState(false);
+
     const {
         currentGuess,
         guesses,
@@ -15,79 +18,60 @@ const Wordle = ({ solution, solutionId, fetchData }) => {
         handleKeyup,
         handlePlayAgain,
         showModal,
-        setShowModal, } = useWordle({ solution, fetchData, solutionId })
-
-    const [fkUserId, setFkUserId] = useState(null);
-
-    useEffect(() => {
-        const getUser = async () => {
-            const user = await authService.getUser();
-            setFkUserId(user.userId);
-        };
-        getUser();
-    }, []);
-
-    const userScore = {
-        FkUserId: fkUserId,
-        FkWordId: solutionId,
-        Attempts: turn,
-        IsGuessed: isCorrect,
-        Started_At: localStorage.getItem('startedAt'),
-        Finished_At: localStorage.getItem('finishedAt'),
-    };
-
-    console.log(userScore);
+        setShowModal, } = useWordle({ solution, fetchData, solutionId, setHasPostedScore })
 
 
     useEffect(() => {
         window.addEventListener('keyup', handleKeyup)
 
-        if (isCorrect) {
+        if (isCorrect || turn > 5) {
             setTimeout(() => setShowModal(true), 1000)
-            window.removeEventListener('keyup', handleKeyup)
-        }
-        if (turn > 5) {
-            setTimeout(() => setShowModal(true), 1000)
+
+            if (!hasPostedScore) {
+                handlePostScore();
+                setHasPostedScore(true);
+            }
+
             window.removeEventListener('keyup', handleKeyup)
         }
 
         return () => window.removeEventListener('keyup', handleKeyup)
     }, [handleKeyup, isCorrect, turn])
 
+    const handlePostScore = () => {
+        const finishedAt = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
 
-    const handlePostScore = async (userScore) => {
-        
-        const response = await fetch('/api/UserScore', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userScore),
+        axios.post('/api/UserScore', {
+            FkUserId: '2',
+            FkWordId: solutionId,
+            Attempts: turn,
+            IsGuessed: isCorrect,
+            Started_At: localStorage.getItem('startedAt'),
+            Finished_At: finishedAt
+        })
+        .then(function (response) {
+            //console.log('response: ', response);
+        })
+        .catch(function (error) {
+            //console.log(error)
+            //console.error('Error while posting:', error.message);
+            throw new Error(`Failed to fetch: ${error.message}`);
         });
-
-        if (response.ok) {
-            return await response.json();
-        } else {
-            throw new Error(`Failed to fetch user score: ${response.statusText}`);
-        }
-    };
-
-
+    }
 
     return (
-            <div>
-                <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
-                <Keyboard usedKeys={usedKeys} handleKeyup={handleKeyup} />
-                {showModal &&
-                    <GameOver
-                        isCorrect={isCorrect}
-                        turn={turn}
-                        solution={solution}
-                        handlePlayAgain={handlePlayAgain}
-                        handlePostScore={handlePostScore}
-                    />}
-            </div>
-        )
-    };
+        <div>
+            <Grid guesses={guesses} currentGuess={currentGuess} turn={turn} />
+            <Keyboard usedKeys={usedKeys} handleKeyup={handleKeyup} />
+            {showModal &&
+                <GameOver
+                    isCorrect={isCorrect}
+                    turn={turn}
+                    solution={solution}
+                    handlePlayAgain={handlePlayAgain}
+                />}
+        </div>
+    )
+};
 
-    export default Wordle;
+export default Wordle;

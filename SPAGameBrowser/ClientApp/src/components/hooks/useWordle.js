@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 
-const UseWordle = ({ solution, fetchData }) => {
+const UseWordle = ({ solution, fetchData, setHasPostedScore }) => {
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]);
@@ -61,9 +61,7 @@ const UseWordle = ({ solution, fetchData }) => {
 
     const addNewGuess = (formattedGuess) => {
         if (currentGuess === solution) {
-            setIsCorrect(true)
-            const finishedAt = new Date()
-            localStorage.setItem('finishedAt', finishedAt.toISOString())
+            setIsCorrect(true);
         }
         setGuesses(prevGuesses => {
             let newGuesses = [...prevGuesses]
@@ -104,12 +102,12 @@ const UseWordle = ({ solution, fetchData }) => {
 
             // do not allow duplicate words
             if (history.includes(currentGuess)) {
-                console.log('you already tried that word.')
+                alert('you already tried that word.')
                 return
             }
 
             if (currentGuess.length !== 5) {
-                console.log('word must be 5 chars.')
+                alert('word must be 5 chars.')
                 return
             }
             const formatted = formatGuess()
@@ -140,6 +138,8 @@ const UseWordle = ({ solution, fetchData }) => {
         localStorage.removeItem('wordleSolution');
         localStorage.removeItem('startedAt');
         localStorage.removeItem('finishedAt');
+
+        setHasPostedScore(false);
 
         // Fetch a new solution
         fetchData();
