@@ -49,7 +49,7 @@ namespace SPAGameBrowser.Controllers
             return userScoreBoard;
         }
 
-        // POST: api/UserScore
+        // POST: api/UserScoreBoards
         [HttpPost]
         public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
         {
@@ -61,7 +61,7 @@ namespace SPAGameBrowser.Controllers
             _context.UserScores.Add(userScore);
             await _context.SaveChangesAsync();
 
-            return userScore;
+            return CreatedAtAction("GetUserScoreBoard", new { id = userScore.UserScoreId }, userScore);
         }
     }
 }
