@@ -4,7 +4,7 @@ import Keyboard from './Keyboard';
 import useWordle from './hooks/useWordle';
 import GameOver from './GameOver';
 import axios from 'axios';
-//import authService from './api-authorization/AuthorizeService';
+import authService from './api-authorization/AuthorizeService';
 
 const Wordle = ({ solution, solutionId, fetchData }) => {
     const [hasPostedScore, setHasPostedScore] = useState(false);
@@ -41,13 +41,20 @@ const Wordle = ({ solution, solutionId, fetchData }) => {
     const handlePostScore = () => {
         const finishedAt = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
 
-        axios.post('/api/UserScore', {
-            FkUserId: '2',
-            FkWordId: solutionId,
-            Attempts: turn,
-            IsGuessed: isCorrect,
-            Started_At: localStorage.getItem('startedAt'),
-            Finished_At: finishedAt
+        authService.getAccessToken()
+        .then(token => {
+            return axios.post('/api/UserScore', {
+                FkUserId: '2',
+                FkWordId: solutionId,
+                Attempts: turn,
+                IsGuessed: isCorrect,
+                Started_At: localStorage.getItem('startedAt'),
+                Finished_At: finishedAt
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         })
         .then(function (response) {
             //console.log('response: ', response);
