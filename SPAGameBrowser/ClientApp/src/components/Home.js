@@ -67,17 +67,17 @@ export class Home extends Component {
             <div className="rules">
               <h4>Game Rules:</h4>
               <div className="centered-content">
-                <p>Words must be five letters long.</p>
-                <p>Only valid English words are allowed.</p>
+                <p>- Words must be five letters long.</p>
+                <p>- Only valid English words are allowed.</p>
               </div>
             </div>
 
             <div className="tips">
               <h4>Tips:</h4>
               <div className="centered-content">
-                <p>Use the feedback to refine your guesses.</p>
-                <p>Pay attention to common English letter combinations.</p>
-                <p>Have fun and challenge yourself!</p>
+                <p>- Use the feedback to refine your guesses.</p>
+                <p>- Pay attention to common English letter combinations.</p>
+                <p>- Have fun and challenge yourself!</p>
               </div>
             </div>
             {playButton}
