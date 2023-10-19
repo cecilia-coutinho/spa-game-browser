@@ -6,13 +6,13 @@ namespace SPAGameBrowser.Models
 {
     public class ScoreViewModel
     {
-        public int UserScoreId { get; set; }
-        public string? FkUserId { get; set; }
-        public int? FkWordId { get; set; }
-        public int Attempts { get; set; }
-        public bool IsGuessed { get; set; }
-        public string? Started_At { get; set; }
-        public string? Finished_At { get; set; }
+        public string? Name { get; set; }
+        public int TotalGamesPlayed { get; set; }
+        public int TotalGamesWon { get; set; }
+        public double WinningPercentage { get; set; }
+        public double AverageGuessesPerGame { get; set; }
+        //public double Accuracy { get; set; }
+        //public TimeSpan FastestWinTime { get; set; }
 
     }
 }
