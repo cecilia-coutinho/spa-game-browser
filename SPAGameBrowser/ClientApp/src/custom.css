@@ -304,3 +304,64 @@ h1 {
         border-color: #333;
     }
 }
+
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.instructions, .rules, .tips {
+    margin-bottom: 20px;
+}
+
+
+.centered-content {
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: justify;
+    max-width: 500px;
+    padding-left: 2.5rem;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.word-list {
+    clear: both;
+    list-style: none !important;
+    padding: 0;
+    text-align: left;
+}
+
+.feedback {
+    clear: inherit;
+    padding-left: 2rem;
+}
+a {
+    text-decoration: initial;
+    width: initial;
+}
+.button {
+    margin: 0 auto;
+    width: 200px;
+    background-color: #59C9A5;
+    color: #23395b;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+    .button:hover {
+        background-color: #FBAF00;
+    }
+
+
