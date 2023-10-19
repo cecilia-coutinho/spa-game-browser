@@ -1,5 +1,5 @@
 import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Highscore } from "./components/Highscore";
+import Highscore from "./components/Highscore";
 import { Home } from "./components/Home";
 import GamePage from "./components/GamePage";
 
