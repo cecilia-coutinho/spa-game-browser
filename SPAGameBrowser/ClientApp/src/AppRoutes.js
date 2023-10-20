@@ -15,7 +15,7 @@ const AppRoutes = [
     },
     {
         path: '/highscore',
-        requireAuth: false,
+        requireAuth: true,
         element: <Highscore />
     },
     ...ApiAuthorzationRoutes
