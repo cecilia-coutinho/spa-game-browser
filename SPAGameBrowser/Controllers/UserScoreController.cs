@@ -35,14 +35,14 @@ namespace SPAGameBrowser.Controllers
 
             if (userId == null)
             {
-                return BadRequest("User ID not found.");
+                throw new ArgumentNullException("userId");
             }
 
             try
             {
                 if (_context.UserScores == null)
                 {
-                    return Problem("Entity is null.", statusCode: 500);
+                    return NotFound("Entity UserScores is null.");
                 }
 
                 var userScores = await _context.UserScores
@@ -61,7 +61,7 @@ namespace SPAGameBrowser.Controllers
 
                 if (_context.Users == null)
                 {
-                    return Problem("Entity is null.", statusCode: 500);
+                    return NotFound("Entity Users is null.");
                 }
 
                 var user = await _context.Users
@@ -80,7 +80,7 @@ namespace SPAGameBrowser.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                return StatusCode(500, $"An error occurred fetching the user statistics: {ex.Message}");
             }
         }
         // GET: api/DailyHighscores
@@ -94,7 +94,7 @@ namespace SPAGameBrowser.Controllers
 
                 if (_context.UserScores == null || _context.Users == null)
                 {
-                    return Problem("Entity is null.", statusCode: 500);
+                    return NotFound("Entity UserScores is null.");
                 }
 
                 var result = await _context.UserScores
@@ -109,11 +109,12 @@ namespace SPAGameBrowser.Controllers
                     )
                     .GroupBy(joined => joined.User.Nickname)
                     .OrderByDescending(group => group.Count())
-                    .Select(group => new ScoreViewModel()
+                    .Select(viewModel => new ScoreViewModel()
                     {
-                        Name = group.Key,
-                        TotalGamesWon = group.Count(h =>
-                        h.UserScore.IsGuessed == true &&
+                        Name = viewModel.Key,
+
+                        TotalGamesWon = viewModel.Count(h =>
+                        h.UserScore.IsGuessed &&
                         h.UserScore.Finished_At != null &&
                         h.UserScore.Finished_At.Substring(0, 10) == today
                         ),
@@ -122,9 +123,9 @@ namespace SPAGameBrowser.Controllers
 
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+                return StatusCode(500, $"An error occurred fetching the daily highscores: {ex.Message}");
             }
 
         }
@@ -133,15 +134,19 @@ namespace SPAGameBrowser.Controllers
         [HttpGet("History")]
         public async Task<ActionResult<IEnumerable<UserScore>>> GetHistoricalHighscores()
         {
-            if (_context.UserScores == null || _context.Users == null)
+            if (_context.UserScores == null)
             {
-                return Problem("Entity is null.");
+                return NotFound("Entity UserScores is null.");
+            }
+
+            if (_context.Users == null)
+            {
+                return NotFound("Entity Users is null.");
             }
 
             var result = await _context.UserScores
                 .Where(score => score.IsGuessed == true)
                 .OrderByDescending(score => score.Attempts)
-                .ThenBy(score => score.Finished_At)
                 .Take(10)
                 .Join(_context.Users,
                     h => h.FkUserId,
@@ -149,16 +154,16 @@ namespace SPAGameBrowser.Controllers
                     (h, u) => new { UserScore = h, User = u }
                 )
                 .GroupBy(joined => joined.User.Nickname)
-                .Select(group => new ScoreViewModel()
+                .Select(viewModel => new ScoreViewModel()
                 {
-                    Name = group.Key,
-                    TotalGamesPlayed = group.Count(),
+                    Name = viewModel.Key,
+                    TotalGamesPlayed = viewModel.Count(),
 
-                    TotalGamesWon = group.Count(h => h.UserScore.IsGuessed == true),
+                    TotalGamesWon = viewModel.Count(h => h.UserScore.IsGuessed == true),
 
-                    WinningPercentage = Math.Round((double)group.Count(h => h.UserScore.IsGuessed == true) * 100.0 / group.Count(), 2),
+                    WinningPercentage = Math.Round((double)viewModel.Count(h => h.UserScore.IsGuessed) * 100.0 / viewModel.Count(), 2),
 
-                    AverageGuessesPerGame = Math.Round(group.Average(h => h.UserScore.Attempts), 2)
+                    AverageGuessesPerGame = Math.Round(viewModel.Average(h => h.UserScore.Attempts), 2)
                 })
                 .ToListAsync();
 
