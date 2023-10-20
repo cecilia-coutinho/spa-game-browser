@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-namespace SPAGameBrowser.Models
+﻿namespace SPAGameBrowser.Models
 {
     public class ScoreViewModel
     {
@@ -11,8 +7,5 @@ namespace SPAGameBrowser.Models
         public int TotalGamesWon { get; set; }
         public double WinningPercentage { get; set; }
         public double AverageGuessesPerGame { get; set; }
-        //public double Accuracy { get; set; }
-        //public TimeSpan FastestWinTime { get; set; }
-
     }
 }
