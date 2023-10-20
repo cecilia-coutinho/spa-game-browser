@@ -101,7 +101,7 @@ namespace SPAGameBrowser.Controllers
                     .Where(score => score.IsGuessed == true)
                     .OrderByDescending(score => score.Attempts)
                     .ThenBy(score => score.Finished_At)
-                    .Take(20)
+                    .Take(10)
                     .Join(_context.Users,
                         h => h.FkUserId,
                         u => u.Id,
@@ -139,6 +139,10 @@ namespace SPAGameBrowser.Controllers
             }
 
             var result = await _context.UserScores
+                .Where(score => score.IsGuessed == true)
+                .OrderByDescending(score => score.Attempts)
+                .ThenBy(score => score.Finished_At)
+                .Take(10)
                 .Join(_context.Users,
                     h => h.FkUserId,
                     u => u.Id,
