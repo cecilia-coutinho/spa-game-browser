@@ -91,9 +91,7 @@ namespace SPAGameBrowser.Controllers
 
                 var result = await _context.UserScores
                     .Where(score => score.IsGuessed == true)
-                    .OrderByDescending(score => score.Attempts)
-                    .ThenBy(score => score.Finished_At)
-                    .Take(10)
+                    .OrderByDescending(score => score.Finished_At)
                     .Join(_context.Users,
                         h => h.FkUserId,
                         u => u.Id,
@@ -111,6 +109,8 @@ namespace SPAGameBrowser.Controllers
                         h.UserScore.Finished_At.Substring(0, 10) == today
                         ),
                     })
+                    .OrderByDescending(viewModel => viewModel.TotalGamesWon)
+                    .Take(10)
                     .ToListAsync();
 
                 return Ok(result);
@@ -137,9 +137,6 @@ namespace SPAGameBrowser.Controllers
             }
 
             var result = await _context.UserScores
-                .Where(score => score.IsGuessed == true)
-                .OrderByDescending(score => score.Attempts)
-                .Take(10)
                 .Join(_context.Users,
                     h => h.FkUserId,
                     u => u.Id,
@@ -157,6 +154,8 @@ namespace SPAGameBrowser.Controllers
 
                     AverageGuessesPerGame = Math.Round(viewModel.Average(h => h.UserScore.Attempts), 2)
                 })
+                .OrderByDescending(viewModel => viewModel.TotalGamesWon )
+                .Take(10)
                 .ToListAsync();
 
             return Ok(result);
