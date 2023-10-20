@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace SPAGameBrowser.Controllers
@@ -47,14 +48,68 @@ namespace SPAGameBrowser.Controllers
 
                     WinningPercentage = Math.Round((double)group.Count(h => h.UserScore.IsGuessed == true) * 100.0 / group.Count(), 2),
 
-                    AverageGuessesPerGame = group.Average(h => h.UserScore.Attempts)
+                    AverageGuessesPerGame = Math.Round(
+                        group.Average(h => h.UserScore.Attempts), 2)
                 })
                 .ToListAsync();
 
             return Ok(result);
         }
 
-        //// GET: api/UserScore/5
+        // GET: api/DailyHighscores
+        [HttpGet("{Daily}")]
+        public async Task<ActionResult<IEnumerable<UserScore>>> DailyHighscores()
+        {
+            try
+            {
+                string today = DateTime.Today.Date.ToString("yyyy/MM/dd");
+
+
+                if (_context.UserScores == null || _context.Users == null)
+                {
+                    return Problem("Entity is null.", statusCode: 500);
+                }
+
+                var result = await _context.UserScores
+                    .Where(score => score.IsGuessed == true)
+                    .OrderByDescending(score => score.Attempts)
+                    .ThenBy(score => score.Finished_At)
+                    .Take(20)
+                    .Join(_context.Users,
+                        h => h.FkUserId,
+                        u => u.Id,
+                        (h, u) => new { UserScore = h, User = u }
+                    )
+                    .GroupBy(joined => joined.User.Nickname)
+                    .OrderByDescending(group => group.Count())
+                    .Select(group => new ScoreViewModel()
+                    {
+                        Name = group.Key,
+                        TotalGamesWon = group.Count(h =>
+                        h.UserScore.IsGuessed == true &&
+                        h.UserScore.Finished_At != null &&
+                        h.UserScore.Finished_At.Substring(0, 10) == today
+                        ),
+                    })
+                    .ToListAsync();
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
+
+        }
+
+        // GET: api/UserScore
+        [HttpGet("HistoricalHighscores")]
+        public async Task<ActionResult<IEnumerable<UserScore>>> HistoricalHighscores()
+        {
+            return Ok();
+        }
+
+        // GET: api/UserScore/5
         //[HttpGet("{id}")]
         //public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScores(string id)
         //{
