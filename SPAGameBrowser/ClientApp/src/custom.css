@@ -367,6 +367,20 @@ a {
 .flex-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.statistics {
+    border: 1px solid #000;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+    min-width: 250px;
+    max-width: 500px;
 }
 
 .score-container {
