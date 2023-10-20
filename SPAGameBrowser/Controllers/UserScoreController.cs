@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer;
+using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,6 +10,8 @@ using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
 using System.Globalization;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace SPAGameBrowser.Controllers
 {
@@ -24,40 +28,63 @@ namespace SPAGameBrowser.Controllers
 
         // GET: api/UserScore
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScores()
+        [Authorize]
+        public async Task<ActionResult<UserScore>> GetUserStatistics()
         {
-            if (_context.UserScores == null || _context.Users == null)
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
             {
-                return Problem("Entity is null.");
+                return BadRequest("User ID not found.");
             }
 
-            var result = await _context.UserScores
-                .Join(_context.Users,
-                    h => h.FkUserId,
-                    u => u.Id,
-                    (h, u) => new { UserScore = h, User = u }
-                )
-                .GroupBy(joined => joined.User.Nickname)
-                .Select(group => new ScoreViewModel()
+            try
+            {
+                if (_context.UserScores == null)
                 {
-                    Name = group.Key,
+                    return Problem("Entity is null.", statusCode: 500);
+                }
 
-                    TotalGamesPlayed = group.Count(),
+                var userScores = await _context.UserScores
+                    .Where(us => us.FkUserId == userId)
+                    .ToListAsync();
 
-                    TotalGamesWon = group.Count(h => h.UserScore.IsGuessed == true),
+                if (userScores == null || userScores.Count == 0)
+                {
+                    return NotFound("No scores for this user");
+                }
 
-                    WinningPercentage = Math.Round((double)group.Count(h => h.UserScore.IsGuessed == true) * 100.0 / group.Count(), 2),
+                var totalGamesPlayed = userScores.Count;
+                var totalGamesWon = userScores.Count(us => us.IsGuessed == true);
+                var winningPercentage = Math.Round((double)totalGamesWon / totalGamesPlayed * 100, 2);
+                var averageGuessesPerGame = Math.Round(userScores.Average(us => us.Attempts), 2);
 
-                    AverageGuessesPerGame = Math.Round(
-                        group.Average(h => h.UserScore.Attempts), 2)
-                })
-                .ToListAsync();
+                if (_context.Users == null)
+                {
+                    return Problem("Entity is null.", statusCode: 500);
+                }
 
-            return Ok(result);
+                var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+                var result = new ScoreViewModel
+                {
+                    Name = user?.Nickname,
+                    TotalGamesPlayed = totalGamesPlayed,
+                    TotalGamesWon = totalGamesWon,
+                    WinningPercentage = winningPercentage,
+                    AverageGuessesPerGame = averageGuessesPerGame
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
-
         // GET: api/DailyHighscores
-        [HttpGet("{Daily}")]
+        [HttpGet("Daily")]
         public async Task<ActionResult<IEnumerable<UserScore>>> DailyHighscores()
         {
             try
@@ -103,32 +130,36 @@ namespace SPAGameBrowser.Controllers
         }
 
         // GET: api/UserScore
-        [HttpGet("HistoricalHighscores")]
-        public async Task<ActionResult<IEnumerable<UserScore>>> HistoricalHighscores()
+        [HttpGet("History")]
+        public async Task<ActionResult<IEnumerable<UserScore>>> GetHistoricalHighscores()
         {
-            return Ok();
+            if (_context.UserScores == null || _context.Users == null)
+            {
+                return Problem("Entity is null.");
+            }
+
+            var result = await _context.UserScores
+                .Join(_context.Users,
+                    h => h.FkUserId,
+                    u => u.Id,
+                    (h, u) => new { UserScore = h, User = u }
+                )
+                .GroupBy(joined => joined.User.Nickname)
+                .Select(group => new ScoreViewModel()
+                {
+                    Name = group.Key,
+                    TotalGamesPlayed = group.Count(),
+
+                    TotalGamesWon = group.Count(h => h.UserScore.IsGuessed == true),
+
+                    WinningPercentage = Math.Round((double)group.Count(h => h.UserScore.IsGuessed == true) * 100.0 / group.Count(), 2),
+
+                    AverageGuessesPerGame = Math.Round(group.Average(h => h.UserScore.Attempts), 2)
+                })
+                .ToListAsync();
+
+            return Ok(result);
         }
-
-        // GET: api/UserScore/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScores(string id)
-        //{
-        //    if (_context.UserScores == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var userScoreBoard = await _context.UserScores
-        //        .Where(us => us.FkUserId == id)
-        //        .OrderByDescending(us => us.Finished_At)
-        //        .ToListAsync();
-
-        //    if (userScoreBoard == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return userScoreBoard;
-        //}
 
         // POST: api/UserScore
         [HttpPost]
@@ -153,26 +184,5 @@ namespace SPAGameBrowser.Controllers
 
             return CreatedAtAction("GetUserScore", new { id = userScore.UserScoreId }, userScore);
         }
-        //public async Task<IActionResult> GetDailyScores(string userId)
-        //{
-        //    DateTime today = DateTime.Today;
-
-        //    if (_context.UserScores == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    List<UserScore> dailyScores = await _context.UserScores
-        //        .Where(score => DateTime.Parse(score.Started_At).Date == today && score.IsGuessed)
-        //        .OrderBy(score => score.Attempts)
-        //        .ToListAsync();
-
-        //    var viewModel = new ScoreViewModel
-        //    {
-        //        DailyScores = dailyScores
-        //    };
-
-        //    return Ok(viewModel);
-        //}
     }
 }
