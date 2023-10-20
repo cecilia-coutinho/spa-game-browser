@@ -364,4 +364,24 @@ a {
         background-color: #FBAF00;
     }
 
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.score-container {
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+    min-width: 250px;
+    max-width: 500px;
+}
+
+.label {
+    margin: 8px 0;
+/*    font-weight: bold;*/
+}
+
 
