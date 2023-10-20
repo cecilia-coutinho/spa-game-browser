@@ -5,6 +5,7 @@ import authService from './api-authorization/AuthorizeService'
 const Highscore = () => {
     const [userStatistics, setUserStatistics] = useState([]);
     const [dailyScores, setDailyScores] = useState([]);
+    const [historyScores, setHistoryScores] = useState([]);
 
     const handleGetStatistics = () => {
         authService.getAccessToken()
@@ -35,9 +36,21 @@ const Highscore = () => {
             });
     }
 
+    const handleGetHistoricalScores = async (hscore) => {
+        return axios.get('api/UserScore/History')
+            .then(response => {
+                setHistoryScores(response.data);
+            })
+            .catch(error => {
+                console.error('Error in GET Request:', error.message);
+                throw error;
+            });
+    }
+
     useEffect(() => {
         handleGetStatistics();
         handleGetDailyScores();
+        handleGetHistoricalScores();
     }, []);
 
     return (
@@ -45,19 +58,31 @@ const Highscore = () => {
             <h4 className="label">Hi {userStatistics.name}!</h4>
             <div className="score-container">
                 <h5>Your Statistics:</h5>
-                <div className="label">Total Games Played: {userStatistics.totalGamesPlayed}</div>
-                <div className="label">Total Games Won: {userStatistics.totalGamesWon}</div>
-                <div className="label">Winning Percentage: {userStatistics.winningPercentage} %</div>
-                <div className="label">Average Guesses Per Game: {userStatistics.averageGuessesPerGame}</div>
+                <div className="label">Games Played: {userStatistics.totalGamesPlayed}</div>
+                <div className="label">Wins: {userStatistics.totalGamesWon}</div>
+                <div className="label">Winning Rate: {userStatistics.winningPercentage} %</div>
+                <div className="label">Avg. Guesses/Game: {userStatistics.averageGuessesPerGame}</div>
             </div>
 
+            <div className="leaderboard">
+
             <div className="score-container">
-                <h3>Top 10 Daily HighScores:</h3>
+                    <h3>Daily HighScore Leaders:</h3>
                 {dailyScores.map((dscore, index) => (
                     <div key={index}>
-                        <p>{dscore.name.toUpperCase()}, {dscore.totalGamesWon} wons.</p>
+                        <p>{dscore.name.toUpperCase()}: {dscore.totalGamesWon} Victories.</p>
                     </div>
                 ))}
+                </div>
+
+                <div className="score-container">
+                    <h3>Top 10 Players of All Time</h3>
+                    {historyScores.map((hscore, index) => (
+                        <div key={index}>
+                            <p>{hscore.name.toUpperCase()}: {hscore.totalGamesWon} Victories.</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
         </div>
