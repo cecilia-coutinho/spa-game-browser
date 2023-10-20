@@ -1,17 +1,9 @@
-﻿using Humanizer;
-using IdentityModel;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SPAGameBrowser.Data;
 using SPAGameBrowser.Models;
-using System.Globalization;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace SPAGameBrowser.Controllers
 {
