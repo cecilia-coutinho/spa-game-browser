@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import authService from './api-authorization/AuthorizeService';
 import useFetch from './UseFetch/useFetch';
 
 const Highscore = () => {
     const [token, setToken] = useState(null);
+    const { data: userStatistics } = useFetch('api/UserScore', token);
+    const { data: dailyScores } = useFetch('api/UserScore/Daily');
+    const { data: historyScores } = useFetch('api/UserScore/History');
 
     useEffect(() => {
         authService.getAccessToken()
@@ -15,11 +17,6 @@ const Highscore = () => {
                 console.error('Error getting access token:', error.message);
             });
     }, []);
-
-    const { data: userStatistics } = useFetch('api/UserScore', token);
-    const { data: dailyScores } = useFetch('api/UserScore/Daily');
-    const { data: historyScores } = useFetch('api/UserScore/History');
-
     return (
         <div className="flex-container">
             {userStatistics && (
