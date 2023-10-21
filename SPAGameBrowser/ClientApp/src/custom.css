@@ -1,3 +1,20 @@
+:root {
+    --primary-bg-color: white;
+    --secondary-bg-color: rgba(179, 191, 203, 0.7);
+    --primary-text-color: black;
+    --secondary-text-color: #23395B;
+    --color-1: #0366d6;
+    --color-2: #E01A76;
+    --color-3: #1b6ec2;
+    --color-4: #1861ac;
+    --color-5: #8E9DAF;
+    --color-6: #528d4e;
+    --color-8: #FFFD98;
+    --color-9: #34495E;
+    --color-10: #007cbe;
+}
+
+
 
 .game {
     text-align: center;
@@ -9,8 +26,8 @@
 }
 
 body {
-/*    padding: 0%;
-    margin: 0;*/
+    padding: 0%;
+    margin: 0;
     text-align: center;
     font-size: 1em;
     font-family: verdana;
@@ -95,9 +112,23 @@ h1 {
         left: 25%;
     }
 
+h3, h4 {
+    color: #34495E;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0.5em 0;
+}
 
-.solution {
-    padding-bottom: 20px;
+h4 {
+    background: linear-gradient(to right, #59C9A5, #B9E3C6);
+    width: 100%;
+    border: 1px;
+    border-radius: 5px;
+    padding: 20px 15px;
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .5rem;
 }
 
 .board {
@@ -304,15 +335,22 @@ h1 {
         border-color: #333;
     }
 }
-
+/* Home componenrt */
 .homeContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #34495E;
+    margin-bottom: 40px;
+    width: 100%;
 }
 
 .instructions, .rules, .tips {
-    margin-bottom: 20px;
+    margin-top: 30px;
+    width: 80%;
 }
 
 
@@ -328,6 +366,21 @@ h1 {
     margin-top: 20px;
     font-size: 16px;
 }
+    .centered-content p {
+        margin: 0.5rem 0;
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    .centered-content ul {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+    }
+
+    .centered-content li {
+        margin-bottom: 10px;
+    }
 
 .word-list {
     clear: both;
@@ -337,18 +390,22 @@ h1 {
 }
 
 .feedback {
-    clear: inherit;
     padding-left: 2rem;
 }
+    .feedback p {
+        margin: 0.5rem 0;
+    }
+
 a {
-    text-decoration: initial;
-    width: initial;
+    color: #FBAF00;
+    text-decoration: none;
 }
+
 .button {
     margin: 0 auto;
     width: 200px;
-    background-color: #59C9A5;
-    color: #23395b;
+    background-color: var(--color-3);
+    color: var(--color-8);
     font-size: 1em;
     font-weight: 600;
     padding: 10px 20px;
@@ -358,6 +415,8 @@ a {
     margin-top: 20px;
     transition: background-color 0.3s;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
 }
 
     .button:hover {
