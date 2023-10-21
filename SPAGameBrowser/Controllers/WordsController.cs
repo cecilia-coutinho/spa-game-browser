@@ -60,14 +60,5 @@ namespace SPAGameBrowser.Controllers
 
             return Ok(words);
         }
-
-
-        //public IActionResult ClearCache()
-        //{
-        //    _cache.Remove(cacheKey);
-        //    _logger.Log(LogLevel.Information, "Cleared cache");
-
-        //    return Ok();
-        //}
     }
 }

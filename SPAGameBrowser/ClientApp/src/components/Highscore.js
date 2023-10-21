@@ -24,7 +24,7 @@ const Highscore = () => {
                 <React.Fragment>
                     <h4 className="label">Hi {userStatistics.name}!</h4>
                     <div className="score-container">
-                        <h5>Your Statistics:</h5>
+                        <h3>Your Statistics:</h3>
                         <div className="label">Games Played: {userStatistics.totalGamesPlayed}</div>
                         <div className="label">Wins: {userStatistics.totalGamesWon}</div>
                         <div className="label">Winning Rate: {userStatistics.winningPercentage} %</div>
@@ -39,9 +39,11 @@ const Highscore = () => {
                         <div className="score-container">
                             <h3>Daily HighScore Leaders:</h3>
                             {dailyScores.map((dscore, index) => (
+                                dscore.totalGamesWon > 0 && (
                                 <div key={index}>
                                     <p>{dscore.name.toUpperCase()}: {dscore.totalGamesWon} Victories.</p>
-                                </div>
+                                    </div>
+                                )
                             ))}
                         </div>
                     </React.Fragment>
@@ -52,9 +54,11 @@ const Highscore = () => {
                         <div className="score-container">
                             <h3>Top 10 Players of All Time</h3>
                             {historyScores.map((hscore, index) => (
+                                hscore.totalGamesWon > 0 && (
                                 <div key={index}>
                                     <p>{hscore.name.toUpperCase()}: {hscore.totalGamesWon} Victories.</p>
-                                </div>
+                                    </div>
+                                )
                             ))}
                         </div>
                     </React.Fragment>

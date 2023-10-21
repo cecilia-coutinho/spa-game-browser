@@ -1,5 +1,4 @@
-import { useEffect, useId, useState } from 'react';
-//import { getWord } from './UseFetch/GetWord';
+import { useEffect, useState } from 'react';
 import Wordle from './Wordle';
 import authService from './api-authorization/AuthorizeService';
 import useFetch from './hooks/useFetch';
@@ -45,7 +44,7 @@ const GamePage = ({ setShowModal }) => {
 
     useEffect(() => {
             fetchSolution();
-    }, [getWord]);
+    }, [getWord, fetchSolution]);
 
     console.log('solution: ', solution);
 
