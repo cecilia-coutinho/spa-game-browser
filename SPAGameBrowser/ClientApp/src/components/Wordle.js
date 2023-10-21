@@ -6,7 +6,7 @@ import GameOver from './GameOver';
 import axios from 'axios';
 import authService from './api-authorization/AuthorizeService';
 
-const Wordle = ({ solution, solutionId, fetchData }) => {
+const Wordle = ({ solution, solutionId, fetchSolution }) => {
     const [hasPostedScore, setHasPostedScore] = useState(false);
 
     const {
@@ -18,7 +18,7 @@ const Wordle = ({ solution, solutionId, fetchData }) => {
         handleKeyup,
         handlePlayAgain,
         showModal,
-        setShowModal, } = useWordle({ solution, fetchData, solutionId, setHasPostedScore })
+        setShowModal, } = useWordle({ solution, fetchSolution, solutionId, setHasPostedScore })
 
 
     useEffect(() => {

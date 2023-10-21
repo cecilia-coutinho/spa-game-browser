@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 
-const UseWordle = ({ solution, fetchData, setHasPostedScore }) => {
+const UseWordle = ({ solution, fetchSolution, setHasPostedScore }) => {
     const [turn, setTurn] = useState(0);
     const [currentGuess, setCurrentGuess] = useState('');
     const [guesses, setGuesses] = useState([...Array(6)]);
@@ -142,7 +142,7 @@ const UseWordle = ({ solution, fetchData, setHasPostedScore }) => {
         setHasPostedScore(false);
 
         // Fetch a new solution
-        fetchData();
+        fetchSolution();
     }
 
     return {
