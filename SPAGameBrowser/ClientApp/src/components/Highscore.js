@@ -17,6 +17,7 @@ const Highscore = () => {
                 console.error('Error getting access token:', error.message);
             });
     }, []);
+
     return (
         <div className="flex-container">
             {userStatistics && (
