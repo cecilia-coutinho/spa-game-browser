@@ -364,6 +364,14 @@ a {
         background-color: #FBAF00;
     }
 
+.leaderboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
 .flex-container {
     display: flex;
     flex-direction: column;
