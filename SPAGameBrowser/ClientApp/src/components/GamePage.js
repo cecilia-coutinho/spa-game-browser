@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from 'react';
 //import { getWord } from './UseFetch/GetWord';
 import Wordle from './Wordle';
 import authService from './api-authorization/AuthorizeService';
-import useFetch from './UseFetch/useFetch';
+import useFetch from './hooks/useFetch';
 
 const GamePage = ({ setShowModal }) => {
 

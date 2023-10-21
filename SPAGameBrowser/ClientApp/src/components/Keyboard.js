@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
-import useFetch from './UseFetch/useFetch';
+import useFetch from './hooks/useFetch';
 import authService from './api-authorization/AuthorizeService';
 
 

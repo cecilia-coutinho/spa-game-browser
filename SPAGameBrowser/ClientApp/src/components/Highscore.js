@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import authService from './api-authorization/AuthorizeService';
-import useFetch from './UseFetch/useFetch';
+import useFetch from './hooks/useFetch';
 
 const Highscore = () => {
     const [token, setToken] = useState(null);
