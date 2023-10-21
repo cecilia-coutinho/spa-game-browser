@@ -1,23 +1,25 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { getLetter } from './UseFetch/GetLetter';
+import useFetch from './UseFetch/useFetch';
+import authService from './api-authorization/AuthorizeService';
 
 
 const Keyboard = ({ usedKeys, handleKeyup }) => {
-    const [letters, setLetters] = useState(null)
+    const [token, setToken] = useState(null);
+    const { data: letters } = useFetch('api/Letters', token, () => {
+        const enter = [{ key: 'Enter' }];
+        const backspace = [{ key: 'Backspace' }];
+        return [...enter, ...letters, ...backspace];
+    });
 
     useEffect(() => {
-        getLetter()
-            .then(getLetter => {
-
-                const enter = [
-                    { key: 'Enter' }
-                ];
-                const backspace = [
-                    { key: 'Backspace' }
-                ];
-                setLetters([...enter, ...getLetter, ...backspace])
+        authService.getAccessToken()
+            .then(tokenValue => {
+                setToken(tokenValue);
             })
-    }, [])
+            .catch(error => {
+                console.error('Error getting access token:', error.message);
+            });
+    }, []);
 
     return (
         <div className="keyboard">
