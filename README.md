@@ -180,6 +180,34 @@ const fetchSolution = async () => {
     }
 ```
 
+```
+// Load game state from local storage
+useEffect(() => {
+    const savedGameState = localStorage.getItem('wordleGameState');
+    if (savedGameState) {
+        const parsedGameState = JSON.parse(savedGameState);
+        setTurn(parsedGameState.turn);
+        setCurrentGuess(parsedGameState.currentGuess);
+        setGuesses(parsedGameState.guesses);
+        setHistory(parsedGameState.history);
+        setIsCorrect(parsedGameState.isCorrect);
+        setUsedKeys(parsedGameState.usedKeys);
+    }
+}, [solution]);
+
+// Save game state
+useEffect(() => {
+    const gameStateToSave = {
+        turn,
+        currentGuess,
+        guesses,
+        history,
+        isCorrect,
+        usedKeys,
+    };
+    localStorage.setItem('wordleGameState', JSON.stringify(gameStateToSave));
+}, [turn, currentGuess, guesses, history, isCorrect, usedKeys]);
+```
 #### Seed Data
 
 Seed Data was implemented to provide a set of information that is automatically inserted into the database during application initialization or migration. This ensures a starting point for testing and application functionality. The implementation utilizes Entity Framework Core's ModelBuilder to seed data into two entities: Word and Letter. The Seed method, an extension of ModelBuilder, populates the database with an array of predefined Word and Letter objects.
