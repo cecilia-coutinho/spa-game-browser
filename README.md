@@ -96,7 +96,40 @@ The UserScore controller handles user game statistics, including total games pla
 
 Additionally, it provides endpoints for user statistics, daily highscores, and historical highscores for the leaderboard. 
 
-The Words controller is responsible for retrieving words for the game and with also the usage of caching to enhance performance.
+```
+// GET: api/UserScore
+[HttpGet]
+[Authorize]
+public async Task<ActionResult<UserScore>> GetUserStatistics()
+{
+   ...
+}
+
+// GET: api/DailyHighscores
+[HttpGet("Daily")]
+public async Task<ActionResult<IEnumerable<UserScore>>> DailyHighscores()
+{
+   ...
+}
+
+// GET: api/UserScore
+[HttpGet("History")]
+public async Task<ActionResult<IEnumerable<UserScore>>> GetHistoricalHighscores()
+{
+   ...
+}
+
+// POST: api/UserScore
+[HttpPost]
+[Authorize]
+public async Task<ActionResult<UserScore>> PostUserScore(UserScore userScore)
+{
+   ...
+}
+```
+
+
+The Words controller is responsible for retrieving words for the game and with also utilizes caching to enhance performance.
 
 The decision of implementing caching in both the Letters and Words controllers was made to reduce database resquest queries.
 
@@ -104,41 +137,26 @@ The decision of implementing caching in both the Letters and Words controllers w
 ```
 public async Task<ActionResult<IEnumerable<Word>>> GetWords()
 {
-    var stopwatch = new Stopwatch();
-    stopwatch.Start();
+   ...
 
-    if (_cache.TryGetValue(cacheKey, out IEnumerable<Word> words))
-    {
-        _logger.Log(LogLevel.Information, "Words found in cache");
-    }
-    else
-    {
-        _logger.Log(LogLevel.Information, "Words NOT found in cache. Loading.");
+    words = await _context.Words.ToListAsync();
 
-        if (_context.Words == null)
-        {
-            return NotFound();
-        }
+    var cacheEntryOptions = new MemoryCacheEntryOptions()
+        .SetSlidingExpiration(TimeSpan.FromDays(1))
+        .SetAbsoluteExpiration(TimeSpan.FromDays(7))
+        .SetPriority(CacheItemPriority.Normal);
 
-        words = await _context.Words.ToListAsync();
+    _cache.Set(cacheKey, words, cacheEntryOptions);
 
-        var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromDays(1))
-            .SetAbsoluteExpiration(TimeSpan.FromDays(7))
-            .SetPriority(CacheItemPriority.Normal);
-
-        _cache.Set(cacheKey, words, cacheEntryOptions);
-    }
-
-    stopwatch.Stop();
-
-    _logger.Log(LogLevel.Information, "PassedTime: " + stopwatch.ElapsedMilliseconds);
+  ...
 
     return Ok(words);
 }
 ```
 
-I've applied the randon logic in the client-side, but I think it could to enhance data integrity if I had done it from the server side
+The randon logic was applied in the client-side, but I believe it could to enhance data integrity if I had implemented it on the server side. That's something I need to take into consideration for future projects right from the beginning, ensuring that time constraints don't compromise the implementation.
+
+I've also used localStorage for user state persistence in the game, so if the players come back to the page, the game will appear as it did the last time they played, with the exception of clearing the browser's cache.
 
 ```
 const fetchSolution = async () => { 
@@ -162,13 +180,51 @@ const fetchSolution = async () => {
     }
 ```
 
-I've used local.storage for user's state persistance in the game so if the players comes back to the page the game will look like the last time they played, with the exception of browser's cache cleaning.
-
 #### Seed Data
 
+Seed Data was implemented to provide a set of information that is automatically inserted into the database during application initialization or migration. This ensures a starting point for testing and application functionality. The implementation utilizes Entity Framework Core's ModelBuilder to seed data into two entities: Word and Letter. The Seed method, an extension of ModelBuilder, populates the database with an array of predefined Word and Letter objects.
 
+```
+public static class ModelBuilderExtensions
+{
+    public static void Seed (this ModelBuilder modelBuilder)
+    {
+        //Words:
+        modelBuilder.Entity<Word>().HasData(new[]
+        {
+            new Word { WordId = 1, WordName = "apple" },
+            ...
+
+        });
+
+        //Letters:
+        modelBuilder.Entity<Letter>().HasData(new[]
+        {
+            new Letter { LetterId = 1, Key = 'a' },
+            ...
+
+        });
+    }
+}
+```
 
 ### Conclusion
+In summary, the implementation showcases user authentication, intuitive navigation, interactive gameplay, highscores tracking, and a Single Page Application (SPA) design. 
 
+In a production environment, certain configurations need to be adjusted for security and performance reasons, such as strengthening password policies, enabling account confirmation, and implementing other security measures. It's essential to secure the random solution for the word directly from the server side and enhance the words dictionary seeded in the database. Additionally, quality assurance (QA) processes should be conducted.
 
+Eg:
+
+```
+builder.Services.AddDefaultIdentity<ApplicationUser>(
+    options => 
+    { 
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+    })
+```
+
+Optimizing database performance and deploying the application on secure servers are also essential steps. This could involve leveraging cloud services, for instance. 
 
