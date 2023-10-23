@@ -48,6 +48,8 @@ The application is a web-based word-guessing game featuring user authentication,
 
 * JavaScript
 
+* Insomnia
+
 * Visual Studio
 
 * GitHub
